@@ -1,0 +1,41 @@
+package com.snijsure.omdbsearch.ui.main
+
+
+import android.content.Context
+import android.databinding.DataBindingUtil
+import android.support.v7.widget.RecyclerView
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import com.snijsure.omdbsearch.R
+import com.snijsure.omdbsearch.data.Movie
+import com.snijsure.omdbsearch.databinding.MovieListContentBinding
+
+
+class MovieAdapter(val context: Context) : RecyclerView.Adapter<MovieAdapter.MovieInfoHolder>() {
+
+    private var layoutInflater: LayoutInflater? = null
+    var movieList = mutableListOf<Movie>()
+
+    override fun getItemCount(): Int {
+        return movieList.size
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieInfoHolder {
+        if (layoutInflater == null) {
+            layoutInflater = LayoutInflater.from(parent.context)
+        }
+        val binding = DataBindingUtil.inflate<MovieListContentBinding>(
+            layoutInflater!!,
+            R.layout.movie_list, parent,
+            false
+        )
+        return MovieInfoHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: MovieInfoHolder, position: Int) {
+        holder.binding.movie = movieList[position]
+    }
+
+    inner class MovieInfoHolder(val binding: MovieListContentBinding) : RecyclerView.ViewHolder(binding.root)
+}
+
