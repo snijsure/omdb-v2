@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.snijsure.omdbsearch.R
 import com.snijsure.omdbsearch.data.Movie
-import com.snijsure.omdbsearch.databinding.MovieListContentBinding
+import com.snijsure.omdbsearch.databinding.MovieListBinding
 
 
 class MovieAdapter(val context: Context) : RecyclerView.Adapter<MovieAdapter.MovieInfoHolder>() {
@@ -24,7 +24,7 @@ class MovieAdapter(val context: Context) : RecyclerView.Adapter<MovieAdapter.Mov
         if (layoutInflater == null) {
             layoutInflater = LayoutInflater.from(parent.context)
         }
-        val binding = DataBindingUtil.inflate<MovieListContentBinding>(
+        val binding = DataBindingUtil.inflate<MovieListBinding>(
             layoutInflater!!,
             R.layout.movie_list, parent,
             false
@@ -36,6 +36,6 @@ class MovieAdapter(val context: Context) : RecyclerView.Adapter<MovieAdapter.Mov
         holder.binding.movie = movieList[position]
     }
 
-    inner class MovieInfoHolder(val binding: MovieListContentBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class MovieInfoHolder(val binding: MovieListBinding) : RecyclerView.ViewHolder(binding.root)
 }
 

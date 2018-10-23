@@ -2,11 +2,9 @@ package com.snijsure.omdbsearch.ui.main
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
-import android.support.design.widget.Snackbar
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
@@ -14,20 +12,16 @@ import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import android.widget.ProgressBar
-import android.widget.TextView
 import android.widget.Toast
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.snijsure.omdbsearch.R
 import com.snijsure.omdbsearch.data.Movie
 
-import com.snijsure.omdbsearch.dummy.DummyContent
 import com.snijsure.omdbsearch.util.InfiniteScrollListener
 import com.snijsure.omdbsearch.util.NetworkUtil
 import dagger.android.AndroidInjection
-import kotlinx.android.synthetic.main.activity_movie_list.*
-import kotlinx.android.synthetic.main.movie_list_content.view.*
-import kotlinx.android.synthetic.main.movie_list.*
+
 import javax.inject.Inject
 
 /**
@@ -63,13 +57,6 @@ class MovieListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_movie_list)
         ButterKnife.bind(this)
 
-        if (movie_detail_container != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
-            twoPane = true
-        }
         movieViewModel = ViewModelProviders.of(this, movieModelViewFactory).get(MovieViewModel::class.java)
         setupRecyclerView()
         setupViewModelObservers()

@@ -6,9 +6,9 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import com.snijsure.imdbapp.ApiKeyInterceptor
 import com.snijsure.omdbsearch.BuildConfig
 import com.snijsure.omdbsearch.data.search.OmdbSearchService
+import com.snijsure.omdbsearch.util.ApiKeyInterceptor
 import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
 import dagger.Module

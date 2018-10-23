@@ -1,4 +1,4 @@
-package com.snijsure.imdbapp
+package com.snijsure.omdbsearch.util
 
 import com.snijsure.omdbsearch.BuildConfig
 import okhttp3.Interceptor
