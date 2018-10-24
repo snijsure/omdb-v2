@@ -39,8 +39,6 @@ class MovieAdapter(val context: Context) : RecyclerView.Adapter<MovieAdapter.Mov
         holder.binding.movie = movieList[position]
 
         holder.binding.movieHolder.setOnClickListener {
-            Timber.d("SUBODH you clicked on ${holder.adapterPosition} imdbid ${movieList[holder.adapterPosition].imdbId}")
-
             val intent = Intent(it.context, MovieDetailActivity::class.java).apply {
                 putExtra(MovieDetailActivity.IMDB_ID, movieList[holder.adapterPosition].imdbId)
             }

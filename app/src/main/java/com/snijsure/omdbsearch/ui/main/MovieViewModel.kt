@@ -29,6 +29,8 @@ class MovieViewModel @Inject constructor(
     var totalSearchResults = 0
     var pendingSearchFetcherJob: Job? = null
     var movieData: MutableLiveData<List<Movie>> = MutableLiveData()
+    var movieDetail: MutableLiveData<MovieDetail> = MutableLiveData()
+
     var dataLoadStatus = MutableLiveData<String>()
     var pageNumber = 1
 
@@ -81,7 +83,7 @@ class MovieViewModel @Inject constructor(
                     isDataLoading.postValue(true)
                     val result = movieDetail(movieId)
                     if (result is Result.Success) {
-                        Timber.d("SUBODH found movie detail")
+                        movieDetail.postValue(result.data)
                     } else if (result is Result.Error) {
                         loadFailed(result.exception.message.toString())
                     }
