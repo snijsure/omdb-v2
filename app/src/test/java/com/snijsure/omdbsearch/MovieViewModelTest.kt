@@ -31,7 +31,7 @@ class MovieViewModelTest {
     var rule: TestRule = InstantTaskExecutorRule()
 
     @Mock
-    lateinit var mockImdbSearchService: OmdbSearchService
+    lateinit var mockOmdbService: OmdbSearchService
     @Mock
     lateinit var mockNetworkUtil: NetworkUtil
     @Mock
@@ -52,7 +52,7 @@ class MovieViewModelTest {
         whenever(mockContextProvider.main).thenReturn(Dispatchers.Unconfined)
 
         movieViewModel = MovieViewModel(
-            mockImdbSearchService,
+            mockOmdbService,
             mockNetworkUtil,
             mockContextProvider
         )
@@ -90,7 +90,7 @@ class MovieViewModelTest {
         val deferred = CompletableDeferred<Response<MovieSearchResponse>>(searchResponse)
         whenever(mockNetworkUtil.isNetworkConnected()).thenReturn(true)
         whenever(
-            mockImdbSearchService.searchDeferred(
+            mockOmdbService.searchDeferred(
                 ArgumentMatchers.anyString(),
                 ArgumentMatchers.anyInt()
             )
@@ -100,7 +100,6 @@ class MovieViewModelTest {
 
         assertEquals(Constants.API_RESPONSE_ERROR, movieViewModel.dataLoadStatus.value)
     }
-
 
 
     @Test
@@ -115,7 +114,7 @@ class MovieViewModelTest {
         val searchResponse = Calls.response(mockResponse).execute()
         val deferred = CompletableDeferred<Response<MovieSearchResponse>>(searchResponse)
         whenever(
-            mockImdbSearchService.searchDeferred(
+            mockOmdbService.searchDeferred(
                 ArgumentMatchers.anyString(),
                 ArgumentMatchers.anyInt()
             )
@@ -148,7 +147,7 @@ class MovieViewModelTest {
         val searchResponse = Calls.response(mockResponse).execute()
         val deferred = CompletableDeferred<Response<MovieSearchResponse>>(searchResponse)
         whenever(
-            mockImdbSearchService.searchDeferred(
+            mockOmdbService.searchDeferred(
                 ArgumentMatchers.anyString(),
                 ArgumentMatchers.anyInt()
             )
@@ -177,7 +176,7 @@ class MovieViewModelTest {
         val searchResponse = Calls.response(mockResponse).execute()
         val deferred = CompletableDeferred<Response<MovieSearchResponse>>(searchResponse)
         whenever(
-            mockImdbSearchService.searchDeferred(
+            mockOmdbService.searchDeferred(
                 ArgumentMatchers.anyString(),
                 ArgumentMatchers.anyInt()
             )

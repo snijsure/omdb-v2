@@ -1,5 +1,6 @@
 package com.snijsure.omdbsearch.data.search
 
+import com.snijsure.omdbsearch.data.MovieDetail
 import com.snijsure.omdbsearch.data.MovieSearchResponse
 import kotlinx.coroutines.Deferred
 import retrofit2.Response
@@ -13,6 +14,13 @@ interface OmdbSearchService {
         @Query("s") searchTerm: String,
         @Query("page") pageNumber: Int
     ): Deferred<Response<MovieSearchResponse>>
+
+
+    @GET("/")
+    fun movieDetailDeferred(
+        @Query("i") movieId: String,
+        @Query("plot") plotType : String = "short"
+    ): Deferred<Response<MovieDetail>>
 
     companion object {
 
