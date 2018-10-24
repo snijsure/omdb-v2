@@ -37,6 +37,10 @@ class MovieDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_movie_detail)
         ButterKnife.bind(this)
 
+        //TODO: We are sharing same viewModel class between two activities
+        // of course in real life we would ABSOLUTELY NOT do that.
+        // I am running short on time hence this kludge --
+
         movieViewModel = ViewModelProviders.of(this, movieModelViewFactory).get(MovieViewModel::class.java)
 
         if (intent.hasExtra(IMDB_ID)) {
@@ -57,6 +61,12 @@ class MovieDetailActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    // Destroy any search job that might be pending
+    override fun onDestroy() {
+        super.onDestroy()
+        movieViewModel.terminatePendingJob()
     }
 
     companion object {
