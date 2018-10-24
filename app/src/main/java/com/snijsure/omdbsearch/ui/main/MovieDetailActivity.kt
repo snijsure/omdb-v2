@@ -1,73 +1,65 @@
 package com.snijsure.omdbsearch.ui.main
 
-import android.content.Intent
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
-import android.view.MenuItem
+import android.support.v7.widget.AppCompatTextView
+import android.widget.ImageView
+import android.widget.ProgressBar
+import butterknife.BindView
+import butterknife.ButterKnife
+import com.bumptech.glide.Glide
 import com.snijsure.omdbsearch.R
-import kotlinx.android.synthetic.main.activity_movie_detail.*
+import com.snijsure.omdbsearch.data.MovieDetail
+import dagger.android.AndroidInjection
+import javax.inject.Inject
 
-/**
- * An activity representing a single Movie detail screen. This
- * activity is only used on narrow width devices. On tablet-size devices,
- * item details are presented side-by-side with a list of items
- * in a [MovieListActivity].
- */
 class MovieDetailActivity : AppCompatActivity() {
+    @Inject
+    lateinit var movieModelViewFactory: MovieViewModelFactory
+    lateinit var movieViewModel: MovieViewModel
+
+    @BindView(R.id.movie_poster)
+    lateinit var poster: ImageView
+    @BindView(R.id.movie_title)
+    lateinit var title: AppCompatTextView
+    @BindView(R.id.movie_year)
+    lateinit var year: AppCompatTextView
+    @BindView(R.id.movie_director)
+    lateinit var director: AppCompatTextView
+    @BindView(R.id.movie_plot)
+    lateinit var plot: AppCompatTextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_detail)
-        setSupportActionBar(detail_toolbar)
+        ButterKnife.bind(this)
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+        movieViewModel = ViewModelProviders.of(this, movieModelViewFactory).get(MovieViewModel::class.java)
+
+        if (intent.hasExtra(IMDB_ID)) {
+            val movieId = intent.getStringExtra(IMDB_ID)
+            movieViewModel.loadMovieDetail(movieId)
         }
 
-        // Show the Up button in the action bar.
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        // savedInstanceState is non-null when there is fragment state
-        // saved from previous configurations of this activity
-        // (e.g. when rotating the screen from portrait to landscape).
-        // In this case, the fragment will automatically be re-added
-        // to its container so we don't need to manually add it.
-        // For more information, see the Fragments API guide at:
-        //
-        // http://developer.android.com/guide/components/fragments.html
-        //
-        if (savedInstanceState == null) {
-            // Create the detail fragment and add it to the activity
-            // using a fragment transaction.
-            val fragment = MovieDetailFragment().apply {
-                arguments = Bundle().apply {
-                    putString(
-                        MovieDetailFragment.ARG_ITEM_ID,
-                        intent.getStringExtra(MovieDetailFragment.ARG_ITEM_ID)
-                    )
+        movieViewModel.movieDetail.observe(this, Observer<MovieDetail> {
+            if (it != null) {
+                plot.text = it.plot
+                director.text = this.resources.getString(R.string.director) + it.director
+                year.text = this.resources.getString(R.string.year) + it.year
+                title.text = it.title
+                if (it.poster.isNotEmpty()) {
+                    Glide.with(this)
+                        .load(it.poster)
+                        .into(poster)
                 }
             }
-
-            supportFragmentManager.beginTransaction()
-                .add(R.id.movie_detail_container, fragment)
-                .commit()
-        }
+        })
     }
 
-    override fun onOptionsItemSelected(item: MenuItem) =
-        when (item.itemId) {
-            android.R.id.home -> {
-                // This ID represents the Home or Up button. In the case of this
-                // activity, the Up button is shown. For
-                // more details, see the Navigation pattern on Android Design:
-                //
-                // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-
-                navigateUpTo(Intent(this, MovieListActivity::class.java))
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
+    companion object {
+        const val IMDB_ID = "item_id"
+    }
 }

@@ -16,9 +16,11 @@ data class Movie(
         @JvmStatic
         @BindingAdapter("image")
         fun loadImage(view: ImageView, imageUrl: String) {
-            Glide.with(view.context)
-                .load(imageUrl)
-                .into(view)
+            if ( imageUrl != null && imageUrl.isNotEmpty()) {
+                Glide.with(view.context)
+                    .load(imageUrl)
+                    .into(view)
+            }
         }
     }
 

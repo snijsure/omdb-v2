@@ -6,4 +6,7 @@
     <string name="search_title">Search</string>
     <string name="movie_poster_description">Movie Poster Description</string>
     <string name="no_more_search_results">No more search results available</string>
+    <string name="director">Directed By\u0020\u0020\u0020</string>
+    <string name="year">Year\u0020\u0020\u0020</string>
+
 </resources>

@@ -15,9 +15,7 @@ class ApiKeyInterceptor : Interceptor {
         val originalHttpUrl = original.url()
 
         val url = originalHttpUrl.newBuilder()
-            .addQueryParameter("i", BuildConfig.OMDB_API_APP_ID)
             .addQueryParameter("apikey", BuildConfig.OMDB_API_KEY)
-            .addQueryParameter("plot","full")
             .build()
 
         val requestBuilder = original.newBuilder()

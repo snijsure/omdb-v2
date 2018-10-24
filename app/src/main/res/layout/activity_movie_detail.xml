@@ -1,54 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                                                 xmlns:tools="http://schemas.android.com/tools"
-                                                 android:layout_width="match_parent"
-                                                 android:layout_height="match_parent"
-                                                 android:fitsSystemWindows="true"
-                                                 tools:context=".ui.main.MovieDetailActivity"
-                                                 tools:ignore="MergeRootFrame">
+<android.support.constraint.ConstraintLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray"
+        android:id="@+id/movie_details">
 
-    <android.support.design.widget.AppBarLayout
-            android:id="@+id/app_bar"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/app_bar_height"
-            android:fitsSystemWindows="true"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+    <ImageView
+            android:id="@+id/movie_poster"
+            android:contentDescription="@string/movie_poster_description"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:scaleType="fitXY"
+            android:src="@android:drawable/ic_lock_idle_alarm"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="16dp"
 
-        <android.support.design.widget.CollapsingToolbarLayout
-                android:id="@+id/toolbar_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                app:contentScrim="?attr/colorPrimary"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:toolbarId="@+id/toolbar">
+            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            tools:ignore="MissingConstraints"/>
 
-            <android.support.v7.widget.Toolbar
-                    android:id="@+id/detail_toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:layout_collapseMode="pin"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+    <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/movie_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:gravity="start"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/movie_poster"
+            android:layout_marginStart="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="8dp"
+            android:layout_marginTop="8dp"/>
 
-        </android.support.design.widget.CollapsingToolbarLayout>
 
-    </android.support.design.widget.AppBarLayout>
+    <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/movie_year"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:gravity="start"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_toEndOf="@id/movie_poster"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/movie_poster"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintTop_toBottomOf="@+id/movie_title"/>
 
-    <android.support.v4.widget.NestedScrollView
-            android:id="@+id/movie_detail_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+    <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/movie_director"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:gravity="start"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_toEndOf="@id/movie_poster"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/movie_poster"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintTop_toBottomOf="@+id/movie_year"
+            app:layout_constraintBottom_toBottomOf="@+id/movie_poster"/>
 
-    <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
+
+    <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/movie_plot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|start"
-            android:layout_margin="@dimen/fab_margin"
-            app:srcCompat="@android:drawable/stat_notify_chat"
-            app:layout_anchor="@+id/movie_detail_container"
-            app:layout_anchorGravity="top|end"/>
-
-</android.support.design.widget.CoordinatorLayout>
+            android:padding="8dp"
+            android:textSize="18sp"
+            android:textStyle="italic"
+            android:gravity="start"
+            android:layout_toEndOf="@id/movie_poster"
+            android:layout_below="@id/movie_title"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/movie_director"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="8dp"
+            app:layout_constraintVertical_bias="0.026"
+            android:ellipsize="end"
+            android:singleLine="false"
+            android:breakStrategy="balanced"
+            tools:text="@tools:sample/lorem[8]"
+            />
+</android.support.constraint.ConstraintLayout>

@@ -2,6 +2,7 @@ package com.snijsure.omdbsearch.ui.main
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
@@ -23,6 +24,7 @@ import com.snijsure.omdbsearch.util.NetworkUtil
 import dagger.android.AndroidInjection
 
 import javax.inject.Inject
+
 
 /**
  * An activity representing a list of Pings. This activity
@@ -48,7 +50,6 @@ class MovieListActivity : AppCompatActivity() {
     @BindView(R.id.busy_indicator)
     lateinit var busyIndicator: ProgressBar
 
-    private var twoPane: Boolean = false
     private var endOfResultsShown = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,13 +57,10 @@ class MovieListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_list)
         ButterKnife.bind(this)
-
         movieViewModel = ViewModelProviders.of(this, movieModelViewFactory).get(MovieViewModel::class.java)
         setupRecyclerView()
         setupViewModelObservers()
     }
-
-
 
     override fun onResume() {
         super.onResume()
@@ -142,7 +140,6 @@ class MovieListActivity : AppCompatActivity() {
                 }
             }
         })
-
     }
 
 
@@ -248,5 +245,9 @@ class MovieListActivity : AppCompatActivity() {
             noConnection.visibility = View.VISIBLE
             recyclerView.visibility = View.GONE
         }
+    }
+
+    companion object {
+        const val SEARCH_TERM = "search_string"
     }
 }
