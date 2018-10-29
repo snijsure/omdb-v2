@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatTextView
+import android.view.Window
 import android.widget.ImageView
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -35,6 +36,7 @@ class MovieDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
+        window.requestFeature(Window.FEATURE_CONTENT_TRANSITIONS)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_detail)
         ButterKnife.bind(this)
@@ -46,6 +48,7 @@ class MovieDetailActivity : AppCompatActivity() {
             movieDetailViewModel.loadMovieDetail(movieId)
         }
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         movieDetailViewModel.movieDetail.observe(this, Observer<MovieDetail> {
             if (it != null) {
                 plot.text = it.plot
@@ -59,6 +62,11 @@ class MovieDetailActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        finishAfterTransition()
+        return true
     }
 
     // Destroy any search job that might be pending
