@@ -1,4 +1,4 @@
-package com.snijsure.omdbsearch.ui.main
+package com.snijsure.omdbsearch.ui.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
@@ -34,11 +34,11 @@ class MovieViewModel @Inject constructor(
     var dataLoadStatus = MutableLiveData<String>()
     var pageNumber = 1
 
-    override fun sourceLoaded(result: List<Movie>?) {
+    override fun sourceLoaded(result: Any?) {
         isDataLoading.postValue(false)
-        if (result != null && result.isNotEmpty()) {
+        if (result != null) {
             pageNumber++
-            movieData.postValue(result)
+            movieData.postValue(result as List<Movie>?)
         } else {
             dataLoadStatus.postValue(Constants.NO_SEARCH_RESULTS)
         }

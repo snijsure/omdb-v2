@@ -7,7 +7,7 @@ import com.snijsure.omdbsearch.data.CoroutinesContextProvider
 import com.snijsure.omdbsearch.data.Movie
 import com.snijsure.omdbsearch.data.MovieSearchResponse
 import com.snijsure.omdbsearch.data.search.OmdbSearchService
-import com.snijsure.omdbsearch.ui.main.MovieViewModel
+import com.snijsure.omdbsearch.ui.viewmodel.MovieViewModel
 import com.snijsure.omdbsearch.util.Constants
 import com.snijsure.omdbsearch.util.NetworkUtil
 import kotlinx.coroutines.CompletableDeferred

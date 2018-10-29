@@ -11,7 +11,12 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/movie_holder">
+        android:id="@+id/movie_holder"
+        android:background="?android:attr/selectableItemBackground">
+    <!--
+    selectableItemBackground provides ripple effect for the element
+    selectableItemBackgroundBorderless provides ripple that is not confined to element
+    !-->
 
     <ImageView
             android:id="@+id/movie_poster"
@@ -26,6 +31,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             android:layout_alignParentTop="true"
+            android:transitionName="@string/sharedImageView"
             app:image="@{movie.poster}"/>
     <ImageView
             android:id="@+id/movie_fav"
@@ -55,6 +61,7 @@
             android:layout_marginBottom="8dp"
             android:layout_toEndOf="@id/movie_poster"
             android:layout_alignParentEnd="true"
+            android:transitionName="@string/sharedText"
             android:text="@{movie.title}"/>
 
 

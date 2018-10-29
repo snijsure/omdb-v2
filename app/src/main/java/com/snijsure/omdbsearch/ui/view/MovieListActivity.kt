@@ -1,9 +1,9 @@
-package com.snijsure.omdbsearch.ui.main
+package com.snijsure.omdbsearch.ui.view
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.Intent
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.DividerItemDecoration
@@ -18,6 +18,8 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.snijsure.omdbsearch.R
 import com.snijsure.omdbsearch.data.Movie
+import com.snijsure.omdbsearch.ui.viewmodel.MovieViewModel
+import com.snijsure.omdbsearch.ui.viewmodel.MovieViewModelFactory
 
 import com.snijsure.omdbsearch.util.InfiniteScrollListener
 import com.snijsure.omdbsearch.util.NetworkUtil
@@ -49,7 +51,8 @@ class MovieListActivity : AppCompatActivity() {
     lateinit var noConnection: ImageView
     @BindView(R.id.busy_indicator)
     lateinit var busyIndicator: ProgressBar
-
+    @BindView(R.id.rootView)
+    lateinit var rootView: ConstraintLayout
     private var endOfResultsShown = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,6 +68,7 @@ class MovieListActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         checkConnectivity()
+        rootView.requestFocus()
     }
 
     // Destroy any search job that might be pending
@@ -81,6 +85,7 @@ class MovieListActivity : AppCompatActivity() {
         searchView = searchMenuItem.actionView as SearchView
         searchView.imeOptions = EditorInfo.IME_ACTION_DONE
         searchView.queryHint = resources.getString(R.string.search_hint)
+        searchView.setIconifiedByDefault(false)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 // Reset page number and do search also clear previous search results

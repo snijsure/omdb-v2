@@ -2,7 +2,7 @@ package com.snijsure.omdbsearch.data
 
 interface LoadSourceCallback {
 
-    fun sourceLoaded(result: List<Movie>?)
+    fun sourceLoaded(result: Any?)
 
     fun loadFailed(reason: String)
 }
