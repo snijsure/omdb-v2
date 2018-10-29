@@ -31,6 +31,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
             android:transitionName="@string/sharedImageView"
+            app:image="@{detail.poster}"
             tools:ignore="MissingConstraints"/>
 
     <android.support.v7.widget.AppCompatTextView
@@ -52,7 +53,7 @@
             android:transitionName="@string/sharedText"
             android:text="@{detail.title}"
     />
-    
+
     <android.support.v7.widget.AppCompatTextView
             android:id="@+id/movie_year"
             android:layout_width="0dp"

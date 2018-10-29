@@ -10,18 +10,4 @@ data class Movie(
     @SerializedName("Title") var title: String,
     @SerializedName("imdbID") var imdbId: String,
     @SerializedName("Poster") var poster: String
-) {
-
-    companion object {
-        @JvmStatic
-        @BindingAdapter("image")
-        fun loadImage(view: ImageView, imageUrl: String) {
-            if (imageUrl.isNotEmpty()) {
-                Glide.with(view.context)
-                    .load(imageUrl)
-                    .into(view)
-            }
-        }
-    }
-
-}
+)
