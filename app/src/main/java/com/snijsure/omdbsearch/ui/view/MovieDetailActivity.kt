@@ -1,4 +1,4 @@
-package com.snijsure.omdbsearch.ui.main
+package com.snijsure.omdbsearch.ui.view
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -11,6 +11,8 @@ import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import com.snijsure.omdbsearch.R
 import com.snijsure.omdbsearch.data.MovieDetail
+import com.snijsure.omdbsearch.ui.viewmodel.MovieDetailViewModel
+import com.snijsure.omdbsearch.ui.viewmodel.MovieDetailViewModelFactory
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 

@@ -1,4 +1,4 @@
-package com.snijsure.omdbsearch.ui.main
+package com.snijsure.omdbsearch.ui.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel

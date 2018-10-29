@@ -2,7 +2,7 @@ package com.snijsure.omdbsearch.util
 
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import com.snijsure.omdbsearch.ui.main.MovieViewModel
+import com.snijsure.omdbsearch.ui.viewmodel.MovieViewModel
 
 /**
  * A scroll listener for RecyclerView to load more items as you approach the end.

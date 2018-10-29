@@ -1,8 +1,7 @@
-package com.snijsure.omdbsearch.ui.main
+package com.snijsure.omdbsearch.ui.view
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
@@ -18,6 +17,8 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.snijsure.omdbsearch.R
 import com.snijsure.omdbsearch.data.Movie
+import com.snijsure.omdbsearch.ui.viewmodel.MovieViewModel
+import com.snijsure.omdbsearch.ui.viewmodel.MovieViewModelFactory
 
 import com.snijsure.omdbsearch.util.InfiniteScrollListener
 import com.snijsure.omdbsearch.util.NetworkUtil

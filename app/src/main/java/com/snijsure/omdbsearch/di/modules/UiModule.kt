@@ -1,7 +1,8 @@
 package com.snijsure.omdbsearch.di.modules
 
-import com.snijsure.omdbsearch.ui.main.MovieDetailActivity
-import com.snijsure.omdbsearch.ui.main.MovieListActivity
+
+import com.snijsure.omdbsearch.ui.view.MovieDetailActivity
+import com.snijsure.omdbsearch.ui.view.MovieListActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

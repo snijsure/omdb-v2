@@ -1,4 +1,4 @@
-package com.snijsure.omdbsearch.ui.main
+package com.snijsure.omdbsearch.ui.view
 
 
 import android.content.Context
