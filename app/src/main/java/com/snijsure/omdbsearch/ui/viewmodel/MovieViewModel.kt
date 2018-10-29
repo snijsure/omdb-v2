@@ -36,7 +36,7 @@ class MovieViewModel @Inject constructor(
 
     override fun sourceLoaded(result: Any?) {
         isDataLoading.postValue(false)
-        if (result != null) {
+        if (result != null && (result as List<Movie>).isNotEmpty()) {
             pageNumber++
             movieData.postValue(result as List<Movie>?)
         } else {
