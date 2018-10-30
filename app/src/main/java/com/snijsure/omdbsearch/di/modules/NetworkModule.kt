@@ -32,6 +32,7 @@ class NetworkModule {
     fun providesMoshi(): Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 
 
+    // I'm not sure if you are gaining much with this provides method.
     @Provides
     fun provideRetrofitBuilder() = Retrofit.Builder()
 
