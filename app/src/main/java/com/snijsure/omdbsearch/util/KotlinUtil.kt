@@ -1,7 +1,7 @@
 package com.snijsure.omdbsearch.util
 
-import java.io.IOException
 import com.snijsure.omdbsearch.data.Result
+import java.io.IOException
 
 /**
  * Wrap a suspending API [call] in try/catch. In case an exception is thrown, a [Result.Error] is

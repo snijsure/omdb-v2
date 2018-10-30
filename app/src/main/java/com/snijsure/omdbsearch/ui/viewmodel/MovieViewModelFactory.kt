@@ -2,7 +2,6 @@ package com.snijsure.omdbsearch.ui.viewmodel
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import com.snijsure.omdbsearch.ui.viewmodel.MovieViewModel
 import javax.inject.Inject
 
 
