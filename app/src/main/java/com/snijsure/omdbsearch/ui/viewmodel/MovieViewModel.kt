@@ -59,16 +59,17 @@ class MovieViewModel @Inject constructor(
     fun loadMovieData(searchTerm: String) {
         if (networkUtil.isNetworkConnected()) {
             pendingSearchFetcherJob = GlobalScope.launch(contextProvider.io,
-                CoroutineStart.DEFAULT, null, {
-                    isDataLoading.postValue(true)
-                    val result = search(searchTerm, pageNumber)
-                    if (result is Result.Success) {
-                        totalSearchResults = result.data.totalResults
-                        sourceLoaded(result.data.movieSearchResults)
-                    } else if (result is Result.Error) {
-                        loadFailed(result.exception.message.toString())
-                    }
-                })
+                CoroutineStart.DEFAULT
+            ) {
+                isDataLoading.postValue(true)
+                val result = search(searchTerm, pageNumber)
+                if (result is Result.Success) {
+                    totalSearchResults = result.data.totalResults
+                    sourceLoaded(result.data.movieSearchResults)
+                } else if (result is Result.Error) {
+                    loadFailed(result.exception.message.toString())
+                }
+            }
         } else {
             isDataLoading.postValue(false)
             dataLoadStatus.postValue(Constants.NO_NETWORK_CONNECTION)

@@ -60,15 +60,16 @@ class MovieDetailViewModel @Inject constructor(
     fun loadMovieDetail(movieId: String) {
         if (networkUtil.isNetworkConnected()) {
             pendingSearchFetcherJob = GlobalScope.launch(contextProvider.io,
-                CoroutineStart.DEFAULT, null, {
-                    isDataLoading.postValue(true)
-                    val result = movieDetail(movieId)
-                    if (result is Result.Success) {
-                        sourceLoaded(result.data)
-                    } else if (result is Result.Error) {
-                        loadFailed(result.exception.message.toString())
-                    }
-                })
+                CoroutineStart.DEFAULT
+            ) {
+                isDataLoading.postValue(true)
+                val result = movieDetail(movieId)
+                if (result is Result.Success) {
+                    sourceLoaded(result.data)
+                } else if (result is Result.Error) {
+                    loadFailed(result.exception.message.toString())
+                }
+            }
         } else {
             isDataLoading.postValue(false)
             dataLoadStatus.postValue(Constants.NO_NETWORK_CONNECTION)
