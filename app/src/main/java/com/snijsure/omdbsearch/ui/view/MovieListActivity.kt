@@ -59,6 +59,10 @@ class MovieListActivity : AppCompatActivity() {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_list)
+
+        // https://kotlinlang.org/docs/tutorials/android-plugin.html#background
+        // KotlinX provides extensions functions that make it easier to reference views.
+        // You might be able to get rid of ButterKnife
         ButterKnife.bind(this)
         movieViewModel = ViewModelProviders.of(this, movieModelViewFactory).get(MovieViewModel::class.java)
         setupRecyclerView()

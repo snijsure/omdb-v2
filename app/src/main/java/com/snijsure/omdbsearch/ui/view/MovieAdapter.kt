@@ -15,10 +15,15 @@ import com.snijsure.omdbsearch.data.Movie
 import com.snijsure.omdbsearch.databinding.MovieListBinding
 import com.snijsure.omdbsearch.util.SharedPreferencesUtil
 
+
 class MovieAdapter(val activity: Activity) : RecyclerView.Adapter<MovieAdapter.MovieInfoHolder>() {
 
 
     private var layoutInflater: LayoutInflater? = null
+
+    // Recommend making the movieList private and then creating a method that updates the list.
+    // If you expose the movieList, it breaks encapsulation and external classes then have complete access to the list.
+    // Recommend having an updateList(list: List<Movies>) method and then within that method you call notifydatasetchanged
     var movieList = mutableListOf<Movie>()
 
     override fun getItemCount(): Int {
@@ -40,9 +45,19 @@ class MovieAdapter(val activity: Activity) : RecyclerView.Adapter<MovieAdapter.M
         return MovieInfoHolder(binding)
     }
 
+    // Recommend trying to simplify the bind logic simpler and try to restrict it to only just setting up the view.
+    // Instead of placing the logic in the onBindViewHolder to check if the favorite icon is visible or not,
+    // I recommend calculating this ahead of time and creating a new Data Class that has
+    // a a field isFavoriteVisible.
+    // So that helps to simplify the onBindViewHolder logic
     override fun onBindViewHolder(holder: MovieInfoHolder, position: Int) {
         holder.binding.movie = movieList[position]
         holder.binding.movie?.let { it ->
+
+            // Recommend refactoring out the logic to determine  if the movieFav icon is visibile or not
+            // because this is inefficient.
+            // The call to SharedPreferencesUtil.getArrayList  has read from Preferences, parse it and then look up by id.
+            // This is done each bind
             val favList = SharedPreferencesUtil.getArrayList(activity,
                 SharedPreferencesUtil.FAV_LIST)
             if (it.imdbId.isNotEmpty() && favList.contains(it.imdbId)) {
@@ -64,6 +79,9 @@ class MovieAdapter(val activity: Activity) : RecyclerView.Adapter<MovieAdapter.M
             it.context.startActivity(intent,options.toBundle())
         }
 
+
+        // Also recommend, refactoring this out and exposing a click listener.
+        // The actual implementation to update the favorites list is done in the ViewModel
         holder.binding.movieHolder.setOnLongClickListener {
             //The Action you want to perform
             val id = movieList[holder.adapterPosition].imdbId

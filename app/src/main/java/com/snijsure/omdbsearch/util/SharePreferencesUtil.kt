@@ -11,6 +11,11 @@ object SharedPreferencesUtil  {
     fun saveArrayList(context: Context, list: ArrayList<String>, key: String) {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         val editor = prefs.edit()
+
+        // To me using the Gson lib for saving and parsing an ArrayList is inefficient.
+        // Recommend using the editor.putStringSet method that will allow you
+        // save the favorites.
+        // Or you can you save the id's as a comma delimited list of strings
         val gson = Gson()
         val json = gson.toJson(list)
         editor.putString(key, json)

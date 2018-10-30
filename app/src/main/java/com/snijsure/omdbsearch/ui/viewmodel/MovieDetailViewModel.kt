@@ -48,6 +48,8 @@ class MovieDetailViewModel @Inject constructor(
         dataLoadStatus.postValue(reason)
     }
 
+    // The ViewModel class exposes a onCleared() method that you can
+    // override and do cleanup
     fun terminatePendingJob() {
         try {
             pendingSearchFetcherJob?.cancel()

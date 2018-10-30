@@ -26,6 +26,8 @@ class MovieViewModel @Inject constructor(
     val isDataLoading = MutableLiveData<Boolean>().apply {
         this.value = false
     }
+
+    // Recommend making the var fields private so that outside classes can't modify these directly
     var totalSearchResults = 0
     var pendingSearchFetcherJob: Job? = null
     var movieData: MutableLiveData<List<Movie>> = MutableLiveData()
@@ -48,6 +50,8 @@ class MovieViewModel @Inject constructor(
         dataLoadStatus.postValue(reason)
     }
 
+    // I don't think this is needed because a ViewModel has a onCleared method by default that
+    // you can use to clean up
     fun terminatePendingJob() {
         try {
             pendingSearchFetcherJob?.cancel()
@@ -55,6 +59,13 @@ class MovieViewModel @Inject constructor(
             Timber.e(e, "Error while cancelling job")
         }
     }
+
+    override fun onCleared() {
+        super.onCleared()
+
+        // this is typically where you put any cleanup code.  T
+    }
+
 
     fun loadMovieData(searchTerm: String) {
         if (networkUtil.isNetworkConnected()) {
