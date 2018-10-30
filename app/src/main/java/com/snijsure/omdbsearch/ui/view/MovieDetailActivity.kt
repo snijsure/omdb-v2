@@ -5,8 +5,6 @@ import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.view.Window
-import butterknife.ButterKnife
 import com.snijsure.omdbsearch.R
 import com.snijsure.omdbsearch.data.MovieDetail
 import com.snijsure.omdbsearch.databinding.ActivityMovieDetailBinding

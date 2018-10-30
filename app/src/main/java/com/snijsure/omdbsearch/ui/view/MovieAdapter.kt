@@ -3,10 +3,10 @@ package com.snijsure.omdbsearch.ui.view
 
 import android.app.Activity
 import android.app.ActivityOptions
-import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.support.v7.widget.RecyclerView
+import android.util.Pair
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +14,6 @@ import com.snijsure.omdbsearch.R
 import com.snijsure.omdbsearch.data.Movie
 import com.snijsure.omdbsearch.databinding.MovieListBinding
 import com.snijsure.omdbsearch.util.SharedPreferencesUtil
-import android.util.Pair
 
 class MovieAdapter(val activity: Activity) : RecyclerView.Adapter<MovieAdapter.MovieInfoHolder>() {
 
