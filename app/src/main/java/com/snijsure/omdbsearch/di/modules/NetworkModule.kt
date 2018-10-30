@@ -21,7 +21,7 @@ import javax.inject.Singleton
 
 
 @Module
-class NetworkModule() {
+class NetworkModule {
 
     @Provides
     fun provideImdbSearchService(): OmdbSearchService =

@@ -29,7 +29,6 @@ class MovieViewModel @Inject constructor(
     var totalSearchResults = 0
     var pendingSearchFetcherJob: Job? = null
     var movieData: MutableLiveData<List<Movie>> = MutableLiveData()
-    var movieDetail: MutableLiveData<MovieDetail> = MutableLiveData()
 
     var dataLoadStatus = MutableLiveData<String>()
     var pageNumber = 1
@@ -76,30 +75,7 @@ class MovieViewModel @Inject constructor(
         }
     }
 
-    fun loadMovieDetail(movieId: String) {
-        if (networkUtil.isNetworkConnected()) {
-            pendingSearchFetcherJob = GlobalScope.launch(contextProvider.io,
-                CoroutineStart.DEFAULT, null, {
-                    isDataLoading.postValue(true)
-                    val result = movieDetail(movieId)
-                    if (result is Result.Success) {
-                        movieDetail.postValue(result.data)
-                    } else if (result is Result.Error) {
-                        loadFailed(result.exception.message.toString())
-                    }
-                })
-        } else {
-            isDataLoading.postValue(false)
-            dataLoadStatus.postValue(Constants.NO_NETWORK_CONNECTION)
-        }
-    }
 
-    private suspend fun movieDetail(
-        movieId: String
-    ) = safeApiCall(
-        call = { getMovieDetail(movieId) },
-        errorMessage = Constants.API_RESPONSE_ERROR
-    )
 
     private suspend fun search(
         query: String,
@@ -114,24 +90,6 @@ class MovieViewModel @Inject constructor(
         page: Int
     ): Result<MovieSearchResponse> {
         val deferredResponse = service.searchDeferred(query, page)
-        val response = deferredResponse.await()
-        if (response.isSuccessful) {
-            val body = response.body()
-            return if (body != null) {
-                Result.Success(body)
-            } else {
-                Result.Error(IOException(Constants.API_RESPONSE_ERROR))
-            }
-        }
-        return Result.Error(
-            IOException("Error ${response.message()}")
-        )
-    }
-
-    private suspend fun getMovieDetail(
-        movieId: String
-    ): Result<MovieDetail> {
-        val deferredResponse = service.movieDetailDeferred(movieId)
         val response = deferredResponse.await()
         if (response.isSuccessful) {
             val body = response.body()

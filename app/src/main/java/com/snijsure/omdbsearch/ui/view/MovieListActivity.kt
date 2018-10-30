@@ -251,8 +251,4 @@ class MovieListActivity : AppCompatActivity() {
             recyclerView.visibility = View.GONE
         }
     }
-
-    companion object {
-        const val SEARCH_TERM = "search_string"
-    }
 }
