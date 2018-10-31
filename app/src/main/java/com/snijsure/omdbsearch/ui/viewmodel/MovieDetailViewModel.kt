@@ -48,7 +48,8 @@ class MovieDetailViewModel @Inject constructor(
         dataLoadStatus.postValue(reason)
     }
 
-    fun terminatePendingJob() {
+    override fun onCleared() {
+        super.onCleared()
         try {
             pendingSearchFetcherJob?.cancel()
         } catch (e: Exception) {

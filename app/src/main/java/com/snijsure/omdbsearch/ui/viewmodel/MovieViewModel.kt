@@ -1,11 +1,13 @@
 package com.snijsure.omdbsearch.ui.viewmodel
 
+import android.app.Application
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.snijsure.omdbsearch.data.*
 import com.snijsure.omdbsearch.data.search.OmdbSearchService
 import com.snijsure.omdbsearch.util.Constants
 import com.snijsure.omdbsearch.util.NetworkUtil
+import com.snijsure.omdbsearch.util.SharedPreferencesUtil
 import com.snijsure.omdbsearch.util.safeApiCall
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.GlobalScope
@@ -19,7 +21,8 @@ import javax.inject.Inject
 class MovieViewModel @Inject constructor(
     private val service: OmdbSearchService,
     private val networkUtil: NetworkUtil,
-    private val contextProvider: CoroutinesContextProvider
+    private val contextProvider: CoroutinesContextProvider,
+    private val appContext: Application
 ) : ViewModel(),
     LoadSourceCallback {
 
@@ -48,7 +51,8 @@ class MovieViewModel @Inject constructor(
         dataLoadStatus.postValue(reason)
     }
 
-    fun terminatePendingJob() {
+    override fun onCleared() {
+        super.onCleared()
         try {
             pendingSearchFetcherJob?.cancel()
         } catch (e: Exception) {
@@ -104,4 +108,18 @@ class MovieViewModel @Inject constructor(
             IOException("Error ${response.message()}")
         )
     }
+
+    fun isFavorite(imdbId: String): Boolean {
+        val favList = SharedPreferencesUtil.getArrayList(appContext,
+            SharedPreferencesUtil.FAV_LIST)
+        return favList.contains(imdbId)
+    }
+
+    fun addToFavorite(imdbId: String) {
+        val favList = SharedPreferencesUtil.getArrayList(appContext,
+            SharedPreferencesUtil.FAV_LIST)
+        favList.add(imdbId)
+        SharedPreferencesUtil.saveArrayList(appContext,favList, SharedPreferencesUtil.FAV_LIST)
+    }
+
 }

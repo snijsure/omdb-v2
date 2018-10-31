@@ -188,14 +188,6 @@ class MovieViewModelTest {
 
     }
 
-    @Test
-    fun testCancelJob() {
-
-        movieViewModel.terminatePendingJob()
-
-        verify(mockJob,times(1)).cancel()
-    }
-
     private fun setupMovieList(): List<Movie> {
 
         val movie1 = Movie("Star Wars", "1234", "http://www.imdb.com/poster1.png")

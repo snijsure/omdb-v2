@@ -13,9 +13,10 @@ import android.view.ViewGroup
 import com.snijsure.omdbsearch.R
 import com.snijsure.omdbsearch.data.Movie
 import com.snijsure.omdbsearch.databinding.MovieListBinding
+import com.snijsure.omdbsearch.ui.viewmodel.MovieViewModel
 import com.snijsure.omdbsearch.util.SharedPreferencesUtil
 
-class MovieAdapter(val activity: Activity) : RecyclerView.Adapter<MovieAdapter.MovieInfoHolder>() {
+class MovieAdapter(private val activity: Activity, private val viewModel: MovieViewModel) : RecyclerView.Adapter<MovieAdapter.MovieInfoHolder>() {
 
 
     private var layoutInflater: LayoutInflater? = null
@@ -43,9 +44,7 @@ class MovieAdapter(val activity: Activity) : RecyclerView.Adapter<MovieAdapter.M
     override fun onBindViewHolder(holder: MovieInfoHolder, position: Int) {
         holder.binding.movie = movieList[position]
         holder.binding.movie?.let { it ->
-            val favList = SharedPreferencesUtil.getArrayList(activity,
-                SharedPreferencesUtil.FAV_LIST)
-            if (it.imdbId.isNotEmpty() && favList.contains(it.imdbId)) {
+            if (it.imdbId.isNotEmpty() && viewModel.isFavorite(it.imdbId)) {
                 holder.binding.movieFav.visibility = View.VISIBLE
             }
         }
@@ -67,12 +66,7 @@ class MovieAdapter(val activity: Activity) : RecyclerView.Adapter<MovieAdapter.M
         holder.binding.movieHolder.setOnLongClickListener {
             //The Action you want to perform
             val id = movieList[holder.adapterPosition].imdbId
-            val favList = SharedPreferencesUtil.getArrayList(it.context,
-                SharedPreferencesUtil.FAV_LIST)
-            if (!favList.contains(id)) {
-                favList.add(id)
-                SharedPreferencesUtil.saveArrayList(it.context,favList, SharedPreferencesUtil.FAV_LIST)
-            }
+            viewModel.addToFavorite(id)
             notifyItemChanged(holder.adapterPosition)
             true
         }

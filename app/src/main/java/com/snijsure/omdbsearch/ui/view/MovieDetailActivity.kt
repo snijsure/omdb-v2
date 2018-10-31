@@ -45,11 +45,6 @@ class MovieDetailActivity : AppCompatActivity() {
         return true
     }
 
-    // Destroy any search job that might be pending
-    override fun onDestroy() {
-        super.onDestroy()
-        movieDetailViewModel.terminatePendingJob()
-    }
 
     companion object {
         const val IMDB_ID = "item_id"
