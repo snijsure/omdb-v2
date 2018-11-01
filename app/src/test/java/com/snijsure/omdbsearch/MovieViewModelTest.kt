@@ -3,8 +3,8 @@ package com.snijsure.omdbsearch
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.Observer
 import com.nhaarman.mockitokotlin2.verify
-import com.snijsure.omdbsearch.data.CoroutinesContextProvider
 import com.snijsure.omdbsearch.data.Movie
+import com.snijsure.omdbsearch.util.CoroutinesContextProvider
 import com.snijsure.omdbsearch.data.MovieSearchResponse
 import com.snijsure.omdbsearch.data.search.OmdbSearchService
 import com.snijsure.omdbsearch.ui.viewmodel.MovieViewModel

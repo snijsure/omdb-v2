@@ -14,7 +14,6 @@ import com.snijsure.omdbsearch.R
 import com.snijsure.omdbsearch.data.Movie
 import com.snijsure.omdbsearch.databinding.MovieListBinding
 import com.snijsure.omdbsearch.ui.viewmodel.MovieViewModel
-import com.snijsure.omdbsearch.util.SharedPreferencesUtil
 
 class MovieAdapter(private val activity: Activity, private val viewModel: MovieViewModel) : RecyclerView.Adapter<MovieAdapter.MovieInfoHolder>() {
 

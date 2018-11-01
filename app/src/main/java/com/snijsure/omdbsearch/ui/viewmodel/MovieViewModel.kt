@@ -3,12 +3,10 @@ package com.snijsure.omdbsearch.ui.viewmodel
 import android.app.Application
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import com.snijsure.dbrepository.repo.room.DataRepository
 import com.snijsure.omdbsearch.data.*
 import com.snijsure.omdbsearch.data.search.OmdbSearchService
-import com.snijsure.omdbsearch.util.Constants
-import com.snijsure.omdbsearch.util.NetworkUtil
-import com.snijsure.omdbsearch.util.SharedPreferencesUtil
-import com.snijsure.omdbsearch.util.safeApiCall
+import com.snijsure.omdbsearch.util.*
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
@@ -22,7 +20,8 @@ class MovieViewModel @Inject constructor(
     private val service: OmdbSearchService,
     private val networkUtil: NetworkUtil,
     private val contextProvider: CoroutinesContextProvider,
-    private val appContext: Application
+    private val appContext: Application,
+    private val dataRepo: DataRepository
 ) : ViewModel(),
     LoadSourceCallback {
 
@@ -36,6 +35,7 @@ class MovieViewModel @Inject constructor(
     var dataLoadStatus = MutableLiveData<String>()
     var pageNumber = 1
 
+    @Suppress("UNCHECKED_CAST")
     override fun sourceLoaded(result: Any?) {
         isDataLoading.postValue(false)
         if (result != null && (result as List<Movie>).isNotEmpty()) {
@@ -116,6 +116,7 @@ class MovieViewModel @Inject constructor(
     }
 
     fun addToFavorite(imdbId: String) {
+        //dataRepo.addMovieToFavorites()
         val favList = SharedPreferencesUtil.getArrayList(appContext,
             SharedPreferencesUtil.FAV_LIST)
         favList.add(imdbId)

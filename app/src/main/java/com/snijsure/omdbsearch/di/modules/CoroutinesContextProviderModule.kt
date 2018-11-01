@@ -1,6 +1,6 @@
 package com.snijsure.omdbsearch.di.modules
 
-import com.snijsure.omdbsearch.data.CoroutinesContextProvider
+import com.snijsure.omdbsearch.util.CoroutinesContextProvider
 import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.Dispatchers

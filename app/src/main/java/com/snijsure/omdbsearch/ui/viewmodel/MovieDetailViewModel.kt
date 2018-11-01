@@ -2,7 +2,7 @@ package com.snijsure.omdbsearch.ui.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import com.snijsure.omdbsearch.data.CoroutinesContextProvider
+import com.snijsure.omdbsearch.util.CoroutinesContextProvider
 import com.snijsure.omdbsearch.data.LoadSourceCallback
 import com.snijsure.omdbsearch.data.MovieDetail
 import com.snijsure.omdbsearch.data.Result
