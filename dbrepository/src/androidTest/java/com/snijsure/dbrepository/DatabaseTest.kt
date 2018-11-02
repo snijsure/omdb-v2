@@ -2,33 +2,29 @@ package com.snijsure.dbrepository
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.persistence.room.Room
-import android.content.Context
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
-import android.util.Config
-import com.snijsure.dbrepository.repo.room.*
+import com.snijsure.dbrepository.repo.room.DataRepository
+import com.snijsure.dbrepository.repo.room.FavoriteDBRepoImpl
+import com.snijsure.dbrepository.repo.room.FavoriteEntry
+import com.snijsure.dbrepository.repo.room.FavoriteRoomDb
 import com.snijsure.utility.CoroutinesContextProvider
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.junit.After
+import org.junit.Assert.assertTrue
 import org.junit.Before
-
 import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.TestRule
 import org.junit.runner.RunWith
+import org.mockito.MockitoAnnotations
 
 
-class FavoriteDBRepoTest {
-    /* @get:Rule
-    var rule: TestRule = InstantTaskExecutorRule()
+@RunWith(AndroidJUnit4::class)
+class DatabaseTest {
 
     @JvmField
     @Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
-    */
 
     lateinit var repo: DataRepository // Object under test
     private var db: FavoriteRoomDb? = null
@@ -36,14 +32,17 @@ class FavoriteDBRepoTest {
 
     @Before
     fun initDb() {
-        val context: Context = InstrumentationRegistry.getTargetContext()
+        MockitoAnnotations.initMocks(this)
 
         db = Room.inMemoryDatabaseBuilder(
-            context,
+            InstrumentationRegistry.getContext(),
             FavoriteRoomDb::class.java
         ).allowMainThreadQueries() //allowing main thread queries, just for testing
             .build()
-        val x = FavoriteDBRepoImpl(db!!.favoriteDao(),CoroutinesContextProvider(Dispatchers.Unconfined,Dispatchers.Unconfined))
+        val x = FavoriteDBRepoImpl(db!!.favoriteDao(), CoroutinesContextProvider(
+            Dispatchers.Unconfined,
+            Dispatchers.Unconfined)
+        )
         repo = DataRepository(x)
     }
 
@@ -54,19 +53,19 @@ class FavoriteDBRepoTest {
 
     @Test
     fun insertItems() {
+
+        // Make sure we find items id1 & id2 but don't find id3
         val fav1 = FavoriteEntry(title = "movie1",imdbid = "id1",poster = "poster1")
         val fav2 = FavoriteEntry(title = "movie2",imdbid = "id2",poster = "poster2")
 
         repo.addMovieToFavorites(fav1)
         repo.addMovieToFavorites(fav2)
 
-      GlobalScope.launch(Dispatchers.Unconfined) {
-            var ret = async {repo.isFavorite("id1")}.await()
-            assert(ret == 1)
-           ret = async {repo.isFavorite("id2")}.await()
-
-          assert(ret == 1)
-
-      }
+        var ret = runBlocking {  repo.isFavorite("id1") }
+        assertTrue(ret == 1)
+        ret = runBlocking {  repo.isFavorite("id2") }
+        assertTrue(ret == 1)
+        ret = runBlocking {  repo.isFavorite("id3") }
+        assertTrue(ret == 0)
     }
 }
