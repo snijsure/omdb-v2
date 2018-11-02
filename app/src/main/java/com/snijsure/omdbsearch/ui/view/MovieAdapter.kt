@@ -14,6 +14,10 @@ import com.snijsure.omdbsearch.R
 import com.snijsure.omdbsearch.data.Movie
 import com.snijsure.omdbsearch.databinding.MovieListBinding
 import com.snijsure.omdbsearch.ui.viewmodel.MovieViewModel
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class MovieAdapter(private val activity: Activity, private val viewModel: MovieViewModel) : RecyclerView.Adapter<MovieAdapter.MovieInfoHolder>() {
 
@@ -43,8 +47,13 @@ class MovieAdapter(private val activity: Activity, private val viewModel: MovieV
     override fun onBindViewHolder(holder: MovieInfoHolder, position: Int) {
         holder.binding.movie = movieList[position]
         holder.binding.movie?.let { it ->
-            if (it.imdbId.isNotEmpty() && viewModel.isFavorite(it.imdbId)) {
-                holder.binding.movieFav.visibility = View.VISIBLE
+            GlobalScope.launch(Main){
+                if (it.imdbId.isNotEmpty() && viewModel.isFavorite(it)) {
+                    holder.binding.movieFav.visibility = View.VISIBLE
+                }
+                else {
+                    holder.binding.movieFav.visibility = View.GONE
+                }
             }
         }
 
@@ -64,8 +73,7 @@ class MovieAdapter(private val activity: Activity, private val viewModel: MovieV
 
         holder.binding.movieHolder.setOnLongClickListener {
             //The Action you want to perform
-            val id = movieList[holder.adapterPosition].imdbId
-            viewModel.addToFavorite(id)
+            viewModel.addToFavorite(movieList[holder.adapterPosition])
             notifyItemChanged(holder.adapterPosition)
             true
         }

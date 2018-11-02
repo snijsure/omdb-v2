@@ -1,1 +1,1 @@
-include ':app', ':dbrepository'
+include ':app', ':dbrepository', ':utility'

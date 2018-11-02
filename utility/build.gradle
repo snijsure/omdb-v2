@@ -3,7 +3,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-allopen'
-
 android {
     compileSdkVersion 28
 
@@ -30,35 +29,15 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(path: ':utility')
-
-    api "com.android.support:support-annotations:${versions.kotlin}"
+    api "com.jakewharton.timber:timber:${versions.timber}"
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
     api "org.jetbrains.kotlin:kotlin-reflect:${versions.kotlin}"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutines}"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutines}"
-
-    api "android.arch.lifecycle:extensions:${versions.lifecycle}"
-    api "android.arch.persistence.room:runtime:${versions.roomVersion}"
-    kapt "android.arch.persistence.room:compiler:${versions.roomVersion}"
-    api "com.google.code.gson:gson:${versions.gson}"
-
     api "com.google.dagger:dagger:${versions.dagger}"
     api "com.google.dagger:dagger-android:${versions.dagger}"
+    api "com.google.code.gson:gson:${versions.gson}"
 
     kapt "com.google.dagger:dagger-compiler:${versions.dagger}"
     kapt "com.google.dagger:dagger-android-processor:${versions.dagger}"
-
-    androidTestImplementation "android.arch.persistence.room:testing:${versions.roomVersion}"
-
-    api "com.android.support:appcompat-v7:28.0.0"
-    testImplementation "junit:junit:${versions.junit}"
-
-    androidTestImplementation "com.android.support.test:runner:${versions.test_runner}"
-    androidTestImplementation "com.android.support.test:rules:${versions.test_rules}"
-    androidTestImplementation "com.android.support.test.espresso:espresso-core:${versions.espresso}"
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
-}
-repositories {
-    mavenCentral()
 }

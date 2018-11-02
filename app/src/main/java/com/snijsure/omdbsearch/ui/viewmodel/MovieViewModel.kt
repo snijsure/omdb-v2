@@ -4,13 +4,14 @@ import android.app.Application
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.snijsure.dbrepository.repo.room.DataRepository
+import com.snijsure.dbrepository.repo.room.FavoriteEntry
 import com.snijsure.omdbsearch.data.*
 import com.snijsure.omdbsearch.data.search.OmdbSearchService
 import com.snijsure.omdbsearch.util.*
-import kotlinx.coroutines.CoroutineStart
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import com.snijsure.utility.CoroutinesContextProvider
+import com.snijsure.utility.Result
+import com.snijsure.utility.safeApiCall
+import kotlinx.coroutines.*
 import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
@@ -109,18 +110,17 @@ class MovieViewModel @Inject constructor(
         )
     }
 
-    fun isFavorite(imdbId: String): Boolean {
-        val favList = SharedPreferencesUtil.getArrayList(appContext,
-            SharedPreferencesUtil.FAV_LIST)
-        return favList.contains(imdbId)
+    suspend fun isFavorite(movie: Movie): Boolean {
+        val count = GlobalScope.async {
+            dataRepo.isFavorite(movie.imdbId)
+        }.await()
+        return count > 0
     }
 
-    fun addToFavorite(imdbId: String) {
-        //dataRepo.addMovieToFavorites()
-        val favList = SharedPreferencesUtil.getArrayList(appContext,
-            SharedPreferencesUtil.FAV_LIST)
-        favList.add(imdbId)
-        SharedPreferencesUtil.saveArrayList(appContext,favList, SharedPreferencesUtil.FAV_LIST)
+    fun addToFavorite(movie: Movie) {
+        val entry = FavoriteEntry(title = movie.title,imdbid = movie.imdbId,
+                poster = movie.poster)
+        dataRepo.addMovieToFavorites(entry)
     }
 
 }
