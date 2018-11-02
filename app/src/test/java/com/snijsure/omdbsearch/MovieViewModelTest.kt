@@ -3,6 +3,7 @@ package com.snijsure.omdbsearch
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.arch.lifecycle.Observer
 import com.nhaarman.mockitokotlin2.verify
+import com.snijsure.dbrepository.repo.room.DataRepository
 import com.snijsure.omdbsearch.data.Movie
 import com.snijsure.omdbsearch.data.MovieSearchResponse
 import com.snijsure.omdbsearch.data.search.OmdbSearchService
@@ -42,7 +43,7 @@ class MovieViewModelTest {
     lateinit var mockJob: Job
     @Mock lateinit var movieListObserver: Observer<List<Movie>>
     @Mock lateinit var dataLoadingObserver: Observer<Boolean>
-
+    @Mock lateinit var mockDataRepo: DataRepository
     private lateinit var movieViewModel: MovieViewModel
 
     @Before
@@ -54,7 +55,8 @@ class MovieViewModelTest {
         movieViewModel = MovieViewModel(
             mockOmdbService,
             mockNetworkUtil,
-            mockContextProvider
+            mockContextProvider,
+            mockDataRepo
         )
         movieViewModel.pendingSearchFetcherJob = mockJob
 

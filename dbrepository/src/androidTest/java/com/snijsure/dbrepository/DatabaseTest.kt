@@ -39,11 +39,11 @@ class DatabaseTest {
             FavoriteRoomDb::class.java
         ).allowMainThreadQueries() //allowing main thread queries, just for testing
             .build()
-        val x = FavoriteDBRepoImpl(db!!.favoriteDao(), CoroutinesContextProvider(
+        val dbImpl = FavoriteDBRepoImpl(db!!.favoriteDao(), CoroutinesContextProvider(
             Dispatchers.Unconfined,
             Dispatchers.Unconfined)
         )
-        repo = DataRepository(x)
+        repo = DataRepository(dbImpl)
     }
 
     @After

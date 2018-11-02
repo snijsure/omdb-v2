@@ -21,7 +21,6 @@ class MovieViewModel @Inject constructor(
     private val service: OmdbSearchService,
     private val networkUtil: NetworkUtil,
     private val contextProvider: CoroutinesContextProvider,
-    private val appContext: Application,
     private val dataRepo: DataRepository
 ) : ViewModel(),
     LoadSourceCallback {
