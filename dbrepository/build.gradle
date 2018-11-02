@@ -15,7 +15,8 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        //testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
 
@@ -25,6 +26,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    testOptions {
+        unitTests {
+            returnDefaultValues = true
+            includeAndroidResources = true
+        }
+    }
 
 }
 
@@ -32,6 +39,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(path: ':utility')
 
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     api "com.android.support:support-annotations:${versions.kotlin}"
     api "org.jetbrains.kotlin:kotlin-reflect:${versions.kotlin}"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutines}"
@@ -51,14 +59,47 @@ dependencies {
     androidTestImplementation "android.arch.persistence.room:testing:${versions.roomVersion}"
 
     api "com.android.support:appcompat-v7:28.0.0"
-    testImplementation "junit:junit:${versions.junit}"
 
     androidTestImplementation "com.android.support.test:runner:${versions.test_runner}"
     androidTestImplementation "com.android.support.test:rules:${versions.test_rules}"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:${versions.espresso}"
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:${versions.mockito_kotlin}"
+    testImplementation "com.squareup.retrofit2:retrofit-mock:${versions.retrofit}"
+    testImplementation "junit:junit:${versions.junit}"
+    testImplementation "org.mockito:mockito-core:${versions.mockito}"
+    testImplementation "android.arch.core:core-testing:${versions.coreTesting}"
+    testImplementation "com.android.support.test:rules:${versions.androidTestSupport}"
+    testImplementation 'org.mockito:mockito-inline:2.19.1'
+
+    androidTestImplementation "com.android.support.test:runner:${versions.test_runner}"
+    androidTestImplementation "com.android.support.test:rules:${versions.test_rules}"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:${versions.espresso}"
+    androidTestImplementation "org.mockito:mockito-core:${versions.mockito}"
+    androidTestImplementation "org.mockito:mockito-android:${versions.mockito}"
+    androidTestImplementation "com.squareup.retrofit2:retrofit-mock:${versions.retrofit}"
+    androidTestImplementation 'com.android.support:support-annotations:28.0.0'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+
+    androidTestCompile 'com.android.support:support-annotations:28.0.0'
+    androidTestCompile 'com.android.support.test:runner:1.0.2'
+    androidTestCompile 'com.android.support.test:rules:1.0.2'
+
+    // Work around issue with runtime classpath version conflict
+    androidTestImplementation "com.android.support:support-core-utils:${versions.supportLibrary}"
+    androidTestImplementation "android.arch.lifecycle:runtime:${versions.lifecycle}"
+    androidTestImplementation "com.android.support.test:rules:${versions.test_rules}"
+    androidTestImplementation "android.arch.core:core-testing:${versions.coreTesting}"
+    androidTestImplementation "com.android.support.test:rules:${versions.androidTestSupport}"
+    testImplementation "org.robolectric:robolectric:${versions.roboElectricVersion}"
+
+
+    androidTestImplementation 'androidx.test:runner:1.1.0-alpha3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha3'
 
 }
+
 repositories {
     mavenCentral()
 }
