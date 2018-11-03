@@ -13,7 +13,7 @@ class FavoriteDBRepoImpl @Inject constructor(private val favDao: FavoriteDao,
                                              private val contextProvider: CoroutinesContextProvider) : FavoriteDBRepo {
 
     override fun getFavorites(): LiveData<List<FavoriteEntry>> {
-           return favDao.getFavorites()
+        return favDao.getFavorites()
     }
 
 

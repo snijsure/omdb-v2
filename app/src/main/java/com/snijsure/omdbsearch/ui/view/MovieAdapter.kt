@@ -58,12 +58,10 @@ class MovieAdapter(private val activity: Activity, private val viewModel: MovieV
         }
 
         holder.binding.movieHolder.setOnClickListener {
-            //val pair = arrayOfNulls<Pair>(2)
             val pair1 = Pair.create<View,String>(holder.binding.moviePoster,
                 activity.resources.getString(R.string.sharedImageView))
             val pair2 = Pair.create<View,String>(holder.binding.movieTitle,
                 activity.resources.getString(R.string.sharedText))
-
             val options = ActivityOptions.makeSceneTransitionAnimation(activity, pair1,pair2)
             val intent = Intent(it.context, MovieDetailActivity::class.java).apply {
                 putExtra(MovieDetailActivity.IMDB_ID, movieList[holder.adapterPosition].imdbId)
@@ -72,7 +70,6 @@ class MovieAdapter(private val activity: Activity, private val viewModel: MovieV
         }
 
         holder.binding.movieHolder.setOnLongClickListener {
-            //The Action you want to perform
             viewModel.addToFavorite(movieList[holder.adapterPosition])
             notifyItemChanged(holder.adapterPosition)
             true

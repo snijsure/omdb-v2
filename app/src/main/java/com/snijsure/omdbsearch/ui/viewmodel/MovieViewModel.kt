@@ -3,8 +3,11 @@ package com.snijsure.omdbsearch.ui.viewmodel
 import android.app.Application
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.util.Pair
+import android.view.View
 import com.snijsure.dbrepository.repo.room.DataRepository
 import com.snijsure.dbrepository.repo.room.FavoriteEntry
+import com.snijsure.omdbsearch.R
 import com.snijsure.omdbsearch.data.*
 import com.snijsure.omdbsearch.data.search.OmdbSearchService
 import com.snijsure.omdbsearch.util.*
@@ -121,5 +124,4 @@ class MovieViewModel @Inject constructor(
                 poster = movie.poster)
         dataRepo.addMovieToFavorites(entry)
     }
-
 }

@@ -17,6 +17,13 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.MockitoAnnotations
+import javax.xml.datatype.DatatypeConstants.SECONDS
+import android.R.attr.countDown
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.Observer
+import android.support.annotation.Nullable
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
 
 @RunWith(AndroidJUnit4::class)
@@ -54,12 +61,7 @@ class DatabaseTest {
     @Test
     fun insertItems() {
 
-        // Make sure we find items id1 & id2 but don't find id3
-        val fav1 = FavoriteEntry(title = "movie1",imdbid = "id1",poster = "poster1")
-        val fav2 = FavoriteEntry(title = "movie2",imdbid = "id2",poster = "poster2")
-
-        repo.addMovieToFavorites(fav1)
-        repo.addMovieToFavorites(fav2)
+        createEntries()
 
         var ret = runBlocking {  repo.isFavorite("id1") }
         assertTrue(ret == 1)
@@ -67,5 +69,48 @@ class DatabaseTest {
         assertTrue(ret == 1)
         ret = runBlocking {  repo.isFavorite("id3") }
         assertTrue(ret == 0)
+    }
+
+    @Test
+    fun getAllItems() {
+
+        createEntries()
+
+        val ret = getLiveDataValue(repo.getFavorites())
+
+        assertTrue(4 == ret.size)
+        assertTrue(ret[3].imdbid == "id5")
+        assertTrue(ret[3].poster == "poster5")
+
+    }
+
+    private fun createEntries() {
+        // Make sure we find items id1 & id2 but don't find id3
+        val fav1 = FavoriteEntry(title = "movie1",imdbid = "id1",poster = "poster1")
+        val fav2 = FavoriteEntry(title = "movie2",imdbid = "id2",poster = "poster2")
+        val fav4 = FavoriteEntry(title = "movie4",imdbid = "id4",poster = "poster4")
+        val fav5 = FavoriteEntry(title = "movie5",imdbid = "id5",poster = "poster5")
+
+        repo.addMovieToFavorites(fav1)
+        repo.addMovieToFavorites(fav2)
+        repo.addMovieToFavorites(fav4)
+        repo.addMovieToFavorites(fav5)
+    }
+
+    // This could be extension function in TestUtils.
+    @Throws(InterruptedException::class)
+    fun <T> getLiveDataValue(liveData: LiveData<T>): T {
+        val data = arrayOfNulls<Any>(1)
+        val latch = CountDownLatch(1)
+        val observer = object : Observer<T> {
+            override fun onChanged(t: T?) {
+                data[0] = t
+                latch.countDown()
+                liveData.removeObserver(this)
+            }
+        }
+        liveData.observeForever(observer)
+        latch.await(2, TimeUnit.SECONDS)
+        return data[0] as T
     }
 }
