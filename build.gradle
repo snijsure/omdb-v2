@@ -1,11 +1,12 @@
 buildscript {
+    ext.kotlin_version = '1.3.0'
     ext.versions = [
             'compileSdk'        : 28,
             'minSdk'            : 23,
             'targetSdk'         : 28,
             'constraintLayout'  : '1.1.3',
             'coroutines'        : '1.0.0',
-            'dagger'            : '2.16',
+            'dagger'            : '2.19',
             'espresso'          : '3.0.2',
             'glide'             : '4.8.0',
             'googleServices'    : '4.0.1',
@@ -28,7 +29,9 @@ buildscript {
             'butterknife' : '8.8.1',
             'coreTesting': "1.1.1",
             'androidTestSupport' : '1.0.2',
-            'timber' : '4.7.1'
+            'timber' : '4.7.1',
+            'roomVersion' : '1.1.1',
+            'roboElectricVersion': '4.0-beta-1'
 
 
     ]
@@ -47,6 +50,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
         classpath 'com.google.gms:google-services:4.1.0'
         classpath "org.jetbrains.kotlin:kotlin-allopen:${versions.kotlin}"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 

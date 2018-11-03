@@ -39,7 +39,11 @@ allOpen {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation project(path: ':utility')
+    implementation project(path: ':dbrepository')
+
     api "com.jakewharton.timber:timber:${versions.timber}"
+    api "com.android.support:support-annotations:${versions.kotlin}"
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}"
     api "org.jetbrains.kotlin:kotlin-reflect:${versions.kotlin}"
     api "com.android.support.constraint:constraint-layout:${versions.constraintLayout}"
@@ -65,14 +69,19 @@ dependencies {
             "${versions.retrofitCoroutines}"
     api "android.arch.lifecycle:viewmodel:${versions.lifecycle}"
     api "android.arch.lifecycle:extensions:${versions.lifecycle}"
+
+
     kapt "com.github.bumptech.glide:compiler:${versions.glide}"
     kapt "com.google.dagger:dagger-compiler:${versions.dagger}"
     api 'com.jakewharton:butterknife:9.0.0-rc1'
     kapt 'com.jakewharton:butterknife-compiler:9.0.0-rc1'
-    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:${versions.mockito_kotlin}"
-    testImplementation "com.squareup.retrofit2:retrofit-mock:${versions.retrofit}"
-    testImplementation "junit:junit:${versions.junit}"
-    testImplementation "org.mockito:mockito-core:${versions.mockito}"
+    kapt "com.google.dagger:dagger-compiler:${versions.dagger}"
+    api "com.google.dagger:dagger-android:${versions.dagger}"
+    kapt "com.google.dagger:dagger-android-processor:${versions.dagger}"
+    api "com.squareup.retrofit2:converter-moshi:${versions.moshiConverterVersion}"
+    api "com.squareup.moshi:moshi-kotlin:${versions.moshiKotlinVersion}"
+    api "com.squareup.moshi:moshi-adapters:${versions.moshiKotlinVersion}"
+
     androidTestImplementation "com.android.support.test:runner:${versions.test_runner}"
     androidTestImplementation "com.android.support.test:rules:${versions.test_rules}"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:${versions.espresso}"
@@ -85,14 +94,14 @@ dependencies {
     androidTestImplementation "android.arch.lifecycle:runtime:${versions.lifecycle}"
     androidTestImplementation "com.android.support.test:rules:${versions.test_rules}"
     androidTestImplementation "android.arch.core:core-testing:${versions.coreTesting}"
-    testImplementation "android.arch.core:core-testing:${versions.coreTesting}"
     androidTestImplementation "com.android.support.test:rules:${versions.androidTestSupport}"
+
+
+    testImplementation "android.arch.core:core-testing:${versions.coreTesting}"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:${versions.mockito_kotlin}"
+    testImplementation "com.squareup.retrofit2:retrofit-mock:${versions.retrofit}"
+    testImplementation "junit:junit:${versions.junit}"
+    testImplementation "org.mockito:mockito-core:${versions.mockito}"
     testImplementation "com.android.support.test:rules:${versions.androidTestSupport}"
     testImplementation 'org.mockito:mockito-inline:2.13.0'
-    kapt "com.google.dagger:dagger-compiler:${versions.dagger}"
-    api "com.google.dagger:dagger-android:${versions.dagger}"
-    kapt "com.google.dagger:dagger-android-processor:${versions.dagger}"
-    api "com.squareup.retrofit2:converter-moshi:${versions.moshiConverterVersion}"
-    api "com.squareup.moshi:moshi-kotlin:${versions.moshiKotlinVersion}"
-    api "com.squareup.moshi:moshi-adapters:${versions.moshiKotlinVersion}"
 }

@@ -1,4 +1,4 @@
-package com.snijsure.omdbsearch.data
+package com.snijsure.utility
 
 sealed class Result<out T : Any> {
 

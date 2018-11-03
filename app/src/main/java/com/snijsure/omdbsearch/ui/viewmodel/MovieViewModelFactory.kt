@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProvider
 import javax.inject.Inject
 
 
+@Suppress("UNCHECKED_CAST")
 class MovieViewModelFactory @Inject constructor(private val mainViewModel: MovieViewModel) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

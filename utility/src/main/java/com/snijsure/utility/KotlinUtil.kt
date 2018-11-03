@@ -1,6 +1,5 @@
-package com.snijsure.omdbsearch.util
+package com.snijsure.utility
 
-import com.snijsure.omdbsearch.data.Result
 import java.io.IOException
 
 /**

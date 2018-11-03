@@ -71,11 +71,6 @@ class MovieListActivity : AppCompatActivity() {
         rootView.requestFocus()
     }
 
-    // Destroy any search job that might be pending
-    override fun onDestroy() {
-        super.onDestroy()
-        movieViewModel.terminatePendingJob()
-    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
@@ -118,7 +113,7 @@ class MovieListActivity : AppCompatActivity() {
         }
         recyclerView.addItemDecoration(decoration)
         val layoutManager = LinearLayoutManager(this)
-        adapter = MovieAdapter(this)
+        adapter = MovieAdapter(this,movieViewModel)
 
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter

@@ -1,16 +1,20 @@
 package com.snijsure.omdbsearch.ui.viewmodel
 
+import android.app.Application
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.util.Pair
+import android.view.View
+import com.snijsure.dbrepository.repo.room.DataRepository
+import com.snijsure.dbrepository.repo.room.FavoriteEntry
+import com.snijsure.omdbsearch.R
 import com.snijsure.omdbsearch.data.*
 import com.snijsure.omdbsearch.data.search.OmdbSearchService
-import com.snijsure.omdbsearch.util.Constants
-import com.snijsure.omdbsearch.util.NetworkUtil
-import com.snijsure.omdbsearch.util.safeApiCall
-import kotlinx.coroutines.CoroutineStart
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import com.snijsure.omdbsearch.util.*
+import com.snijsure.utility.CoroutinesContextProvider
+import com.snijsure.utility.Result
+import com.snijsure.utility.safeApiCall
+import kotlinx.coroutines.*
 import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
@@ -19,7 +23,8 @@ import javax.inject.Inject
 class MovieViewModel @Inject constructor(
     private val service: OmdbSearchService,
     private val networkUtil: NetworkUtil,
-    private val contextProvider: CoroutinesContextProvider
+    private val contextProvider: CoroutinesContextProvider,
+    private val dataRepo: DataRepository
 ) : ViewModel(),
     LoadSourceCallback {
 
@@ -33,6 +38,7 @@ class MovieViewModel @Inject constructor(
     var dataLoadStatus = MutableLiveData<String>()
     var pageNumber = 1
 
+    @Suppress("UNCHECKED_CAST")
     override fun sourceLoaded(result: Any?) {
         isDataLoading.postValue(false)
         if (result != null && (result as List<Movie>).isNotEmpty()) {
@@ -48,7 +54,8 @@ class MovieViewModel @Inject constructor(
         dataLoadStatus.postValue(reason)
     }
 
-    fun terminatePendingJob() {
+    override fun onCleared() {
+        super.onCleared()
         try {
             pendingSearchFetcherJob?.cancel()
         } catch (e: Exception) {
@@ -103,5 +110,18 @@ class MovieViewModel @Inject constructor(
         return Result.Error(
             IOException("Error ${response.message()}")
         )
+    }
+
+    suspend fun isFavorite(movie: Movie): Boolean {
+        val count = GlobalScope.async {
+            dataRepo.isFavorite(movie.imdbId)
+        }.await()
+        return count > 0
+    }
+
+    fun addToFavorite(movie: Movie) {
+        val entry = FavoriteEntry(title = movie.title,imdbid = movie.imdbId,
+                poster = movie.poster)
+        dataRepo.addMovieToFavorites(entry)
     }
 }

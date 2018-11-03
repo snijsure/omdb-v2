@@ -1,4 +1,4 @@
-package com.snijsure.omdbsearch.data
+package com.snijsure.utility
 
 import kotlin.coroutines.CoroutineContext
 
