@@ -30,9 +30,9 @@ class MovieDetailViewModel @Inject constructor(
         this.value = false
     }
     var pendingSearchFetcherJob: Job? = null
-    var movieDetail: MutableLiveData<MovieDetail> = MutableLiveData()
+    val movieDetail: MutableLiveData<MovieDetail> = MutableLiveData()
 
-    var dataLoadStatus = MutableLiveData<String>()
+    val dataLoadStatus = MutableLiveData<String>()
 
     override fun sourceLoaded(result: Any?) {
         isDataLoading.postValue(false)

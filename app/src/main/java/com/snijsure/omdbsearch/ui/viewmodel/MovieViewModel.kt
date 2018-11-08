@@ -33,9 +33,8 @@ class MovieViewModel @Inject constructor(
     }
     var totalSearchResults = 0
     var pendingSearchFetcherJob: Job? = null
-    var movieData: MutableLiveData<List<Movie>> = MutableLiveData()
-
-    var dataLoadStatus = MutableLiveData<String>()
+    val movieData: MutableLiveData<List<Movie>> = MutableLiveData()
+    val dataLoadStatus = MutableLiveData<String>()
     var pageNumber = 1
 
     @Suppress("UNCHECKED_CAST")
