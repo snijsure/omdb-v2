@@ -10,17 +10,20 @@ import android.util.Pair
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.snijsure.dbrepository.repo.room.DataRepository
+import com.snijsure.dbrepository.repo.room.FavoriteEntry
 import com.snijsure.omdbsearch.R
 import com.snijsure.omdbsearch.data.Movie
 import com.snijsure.omdbsearch.databinding.MovieListBinding
 import com.snijsure.omdbsearch.ui.viewmodel.MovieViewModel
-import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import timber.log.Timber
 
-class MovieAdapter(private val activity: Activity, private val viewModel: MovieViewModel) : RecyclerView.Adapter<MovieAdapter.MovieInfoHolder>() {
-
+class MovieAdapter(
+    private val activity: Activity,
+    private val viewModel: MovieViewModel,
+    private val dataRepo: DataRepository
+) :RecyclerView.Adapter<MovieAdapter.MovieInfoHolder>() {
 
     private var layoutInflater: LayoutInflater? = null
     var movieList = mutableListOf<Movie>()
@@ -38,45 +41,88 @@ class MovieAdapter(private val activity: Activity, private val viewModel: MovieV
             R.layout.movie_list, parent,
             false
         )
-
-
-
         return MovieInfoHolder(binding)
     }
 
     override fun onBindViewHolder(holder: MovieInfoHolder, position: Int) {
         holder.binding.movie = movieList[position]
         holder.binding.movie?.let { it ->
-            GlobalScope.launch(Main){
-                if (it.imdbId.isNotEmpty() && viewModel.isFavorite(it)) {
-                    holder.binding.movieFav.visibility = View.VISIBLE
-                }
-                else {
-                    holder.binding.movieFav.visibility = View.GONE
+            GlobalScope.launch(Dispatchers.IO) {
+                var visibility = View.GONE
+                if (it.imdbId.isNotEmpty())
+                    visibility = if (viewModel.isFavorite(it))
+                        View.VISIBLE
+                    else
+                        View.GONE
+                withContext(Dispatchers.Main) {
+                    holder.binding.movieFav.visibility = visibility
                 }
             }
-        }
-
-        holder.binding.movieHolder.setOnClickListener {
-            val pair1 = Pair.create<View,String>(holder.binding.moviePoster,
-                activity.resources.getString(R.string.sharedImageView))
-            val pair2 = Pair.create<View,String>(holder.binding.movieTitle,
-                activity.resources.getString(R.string.sharedText))
-            val options = ActivityOptions.makeSceneTransitionAnimation(activity, pair1,pair2)
-            val intent = Intent(it.context, MovieDetailActivity::class.java).apply {
-                putExtra(MovieDetailActivity.IMDB_ID, movieList[holder.adapterPosition].imdbId)
-            }
-            it.context.startActivity(intent,options.toBundle())
-        }
-
-        holder.binding.movieHolder.setOnLongClickListener {
-            viewModel.addToFavorite(movieList[holder.adapterPosition])
-            notifyItemChanged(holder.adapterPosition)
-            true
         }
     }
 
-    inner class MovieInfoHolder(val binding: MovieListBinding) : RecyclerView.ViewHolder(binding.root)
+    /**
+     * Note we register callback handler in InfoHolder and not onBindViewHolder, a common mistake
+     */
+
+    inner class MovieInfoHolder(val binding: MovieListBinding) : RecyclerView.ViewHolder(binding.root),
+        View.OnClickListener, View.OnLongClickListener {
+
+        /**
+         * Toggles favorite status of the movie, not the job is launched on GlobalScope
+         */
+        override fun onLongClick(v: View?): Boolean {
+            var visibility: Int
+             GlobalScope.launch(Dispatchers.IO) {
+                try {
+                    val movie = movieList[adapterPosition]
+                    if (dataRepo.isFavorite(movie.imdbId) != 0) {
+                        visibility = View.GONE
+                        dataRepo.removeEntryFromFavorites(movie.imdbId)
+                    } else {
+                        val entry = FavoriteEntry(title = movie.title, imdbid = movie.imdbId,
+                            poster = movie.poster)
+                        dataRepo.addMovieToFavorites(entry)
+                        visibility = View.VISIBLE
+                    }
+                    withContext(Dispatchers.Main) {
+                        binding.movieFav.visibility = visibility
+                    }
+                } catch (e: Exception) {
+                    Timber.e("Unable to add item to favorites list")
+                }
+            }
+            return true
+        }
+
+        /**
+         * Launches detail activity, the intent is launched with sharedImage and sharedText as
+         * intent parameters so shared element transition will cause image and move title to
+         * animate correctly.
+         */
+        override fun onClick(v: View?) {
+            v?.let { view ->
+                val pair1 = Pair.create<View, String>(
+                    binding.moviePoster,
+                    activity.resources.getString(R.string.sharedImageView)
+                )
+                val pair2 = Pair.create<View, String>(
+                    binding.movieTitle,
+                    activity.resources.getString(R.string.sharedText)
+                )
+                val options = ActivityOptions.makeSceneTransitionAnimation(activity, pair1, pair2)
+                val intent = Intent(view.context, MovieDetailActivity::class.java).apply {
+                    putExtra(MovieDetailActivity.IMDB_ID, movieList[adapterPosition].imdbId)
+                }
+                view.context.startActivity(intent, options.toBundle())
+            }
+        }
+
+        init {
+            binding.movieHolder.setOnClickListener(this)
+            binding.movieHolder.setOnLongClickListener(this)
+        }
+    }
 }
 
 

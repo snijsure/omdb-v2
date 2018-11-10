@@ -13,7 +13,6 @@ import com.snijsure.omdbsearch.util.NetworkUtil
 import com.snijsure.utility.CoroutinesContextProvider
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -39,8 +38,6 @@ class MovieViewModelTest {
     lateinit var mockContextProvider: CoroutinesContextProvider
     @Mock
     lateinit var mockResponse: Response<MovieSearchResponse>
-    @Mock
-    lateinit var mockJob: Job
     @Mock lateinit var movieListObserver: Observer<List<Movie>>
     @Mock lateinit var dataLoadingObserver: Observer<Boolean>
     @Mock lateinit var mockDataRepo: DataRepository
@@ -58,7 +55,6 @@ class MovieViewModelTest {
             mockContextProvider,
             mockDataRepo
         )
-        movieViewModel.pendingSearchFetcherJob = mockJob
 
     }
 
