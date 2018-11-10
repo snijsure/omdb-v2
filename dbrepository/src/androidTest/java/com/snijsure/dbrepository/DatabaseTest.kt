@@ -45,8 +45,9 @@ class DatabaseTest {
         ).allowMainThreadQueries() //allowing main thread queries, just for testing
             .build()
         val dbImpl = FavoriteDBRepoImpl(db!!.favoriteDao(), CoroutinesContextProvider(
-            Dispatchers.Unconfined,
-            Dispatchers.Unconfined)
+            main  = Dispatchers.Unconfined,
+            io = Dispatchers.Unconfined,
+            computation = Dispatchers.Unconfined)
         )
         repo = DataRepository(dbImpl)
     }
@@ -70,11 +71,10 @@ class DatabaseTest {
     }
 
     @Test
-    fun getAllItems() {
+    fun  getAllItems() {
 
         createEntries()
-
-        val ret = getLiveDataValue(repo.getFavorites())
+        val ret = getLiveDataValue(runBlocking {  repo.getFavorites() })
 
         assertTrue(4 == ret.size)
         assertTrue(ret[3].imdbid == "id5")

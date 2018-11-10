@@ -41,6 +41,8 @@ class MovieListActivity : AppCompatActivity() {
     lateinit var networkUtil: NetworkUtil
     @Inject
     lateinit var dataRepo: DataRepository
+    @Inject
+    lateinit var contextProvider: CoroutinesContextProvider
 
     lateinit var movieViewModel: MovieViewModel
     lateinit var adapter: MovieAdapter
@@ -110,7 +112,7 @@ class MovieListActivity : AppCompatActivity() {
         val decoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         recyclerView.addItemDecoration(decoration)
         val layoutManager = LinearLayoutManager(this)
-        adapter = MovieAdapter(this,movieViewModel,dataRepo)
+        adapter = MovieAdapter(this,movieViewModel,dataRepo,contextProvider)
 
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter

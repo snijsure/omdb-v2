@@ -55,7 +55,25 @@ buildscript {
 }
 
 plugins {
-    id 'com.diffplug.gradle.spotless' version '3.14.0'
+    id 'com.diffplug.gradle.spotless' version '3.16.0'
+}
+
+subprojects {
+    apply plugin: 'com.diffplug.gradle.spotless'
+    spotless {
+        format 'misc', {
+            target '**/*.md', '**/.gitignore'
+            trimTrailingWhitespace()
+            indentWithTabs() // or spaces. Takes an integer argument if you don't like 4
+            endWithNewline()
+        }
+        java {
+            target '**/*.java'
+            googleJavaFormat('1.1').aosp()
+            licenseHeaderFile project.rootProject.file('spotless/copyright.java')
+            removeUnusedImports()
+        }
+    }
 }
 
 allprojects {

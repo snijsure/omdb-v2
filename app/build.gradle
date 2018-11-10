@@ -3,6 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-allopen'
+apply plugin: 'kotlin-allopen'
 
 android {
     compileSdkVersion versions.compileSdk
@@ -29,6 +30,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     buildToolsVersion '28.0.3'
 }
 

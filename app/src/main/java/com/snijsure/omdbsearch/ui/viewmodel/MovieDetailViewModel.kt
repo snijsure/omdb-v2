@@ -21,16 +21,15 @@ class MovieDetailViewModel @Inject constructor(
     private val service: OmdbSearchService,
     private val networkUtil: NetworkUtil,
     private val contextProvider: CoroutinesContextProvider
-) : ViewModel(), CoroutineScope,
+) : ViewModel(),
     LoadSourceCallback {
 
-    override val coroutineContext: CoroutineContext
-        get() = contextProvider.io + pendingJobs
+    private val pendingJobs = Job()
+    private val coroutineScope = CoroutineScope(contextProvider.io + pendingJobs)
 
     val isDataLoading = MutableLiveData<Boolean>().apply {
         this.value = false
     }
-    private var pendingJobs = Job()
     val movieDetail: MutableLiveData<MovieDetail> = MutableLiveData()
 
     val dataLoadStatus = MutableLiveData<String>()
@@ -61,7 +60,7 @@ class MovieDetailViewModel @Inject constructor(
 
     fun loadMovieDetail(movieId: String) {
         if (networkUtil.isNetworkConnected()) {
-            launch(coroutineContext)  {
+            coroutineScope.launch  {
                 isDataLoading.postValue(true)
                 val result = movieDetail(movieId)
                 if (result is Result.Success) {

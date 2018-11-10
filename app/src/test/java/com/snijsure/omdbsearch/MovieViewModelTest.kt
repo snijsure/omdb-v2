@@ -48,6 +48,7 @@ class MovieViewModelTest {
         MockitoAnnotations.initMocks(this)
         whenever(mockContextProvider.io).thenReturn(Dispatchers.Unconfined)
         whenever(mockContextProvider.main).thenReturn(Dispatchers.Unconfined)
+        whenever(mockContextProvider.computation).thenReturn(Dispatchers.Unconfined)
 
         movieViewModel = MovieViewModel(
             mockOmdbService,

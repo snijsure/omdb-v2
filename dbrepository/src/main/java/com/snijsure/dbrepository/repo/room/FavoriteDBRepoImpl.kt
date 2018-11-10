@@ -9,30 +9,30 @@ import kotlin.coroutines.CoroutineContext
 
 class FavoriteDBRepoImpl @Inject constructor(private val favDao: FavoriteDao,
                                              private val contextProvider: CoroutinesContextProvider) :
-    FavoriteDBRepo , CoroutineScope {
-    override val coroutineContext: CoroutineContext
-        get() = contextProvider.io
+    FavoriteDBRepo {
+    private val pendingJob = Job()
+    private val coroutineScope = CoroutineScope(contextProvider.io + pendingJob)
 
     override fun removeEntryFromFavorites(movieId: String) {
-        launch(coroutineContext) {
+        coroutineScope.launch {
             favDao.removeEntryFromFavorites(movieId)
         }
     }
 
-    override fun getFavorites(): LiveData<List<FavoriteEntry>> {
-        return runBlocking(coroutineContext) {
+    override suspend fun getFavorites(): LiveData<List<FavoriteEntry>> {
+        return coroutineScope.async {
             favDao.getFavorites()
-        }
+        }.await()
     }
 
     override suspend fun isFavorite(movieId: String): Int {
-        return async(coroutineContext) {
+        return coroutineScope.async {
             favDao.isFavorite(movieId)
         }.await()
     }
 
     override fun addMovieToFavorites(movie: FavoriteEntry) {
-        launch(coroutineContext) {
+        coroutineScope.launch {
             try {
                 favDao.addMovieToFavorites(movie)
             }
