@@ -1,23 +1,25 @@
 package com.snijsure.omdbsearch.ui.viewmodel
 
-import android.app.Application
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import android.util.Pair
-import android.view.View
 import com.snijsure.dbrepository.repo.room.DataRepository
-import com.snijsure.dbrepository.repo.room.FavoriteEntry
-import com.snijsure.omdbsearch.R
-import com.snijsure.omdbsearch.data.*
+import com.snijsure.omdbsearch.data.LoadSourceCallback
+import com.snijsure.omdbsearch.data.Movie
+import com.snijsure.omdbsearch.data.MovieSearchResponse
 import com.snijsure.omdbsearch.data.search.OmdbSearchService
-import com.snijsure.omdbsearch.util.*
+import com.snijsure.omdbsearch.util.Constants
+import com.snijsure.omdbsearch.util.NetworkUtil
 import com.snijsure.utility.CoroutinesContextProvider
 import com.snijsure.utility.Result
 import com.snijsure.utility.safeApiCall
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
 
 class MovieViewModel @Inject constructor(
@@ -25,16 +27,19 @@ class MovieViewModel @Inject constructor(
     private val networkUtil: NetworkUtil,
     private val contextProvider: CoroutinesContextProvider,
     private val dataRepo: DataRepository
-) : ViewModel(),
-    LoadSourceCallback {
+) : ViewModel(),CoroutineScope, LoadSourceCallback {
+
+    override val coroutineContext: CoroutineContext
+        get() = contextProvider.io + pendingJobs
 
     val isDataLoading = MutableLiveData<Boolean>().apply {
         this.value = false
     }
     var totalSearchResults = 0
-    var pendingSearchFetcherJob: Job? = null
+    private val pendingJobs = Job()
     val movieData: MutableLiveData<List<Movie>> = MutableLiveData()
     val dataLoadStatus = MutableLiveData<String>()
+
     var pageNumber = 1
 
     @Suppress("UNCHECKED_CAST")
@@ -56,7 +61,7 @@ class MovieViewModel @Inject constructor(
     override fun onCleared() {
         super.onCleared()
         try {
-            pendingSearchFetcherJob?.cancel()
+            pendingJobs.cancel()
         } catch (e: Exception) {
             Timber.e(e, "Error while cancelling job")
         }
@@ -64,16 +69,15 @@ class MovieViewModel @Inject constructor(
 
     fun loadMovieData(searchTerm: String) {
         if (networkUtil.isNetworkConnected()) {
-            pendingSearchFetcherJob = GlobalScope.launch(contextProvider.io,
-                CoroutineStart.DEFAULT
-            ) {
+            launch (coroutineContext) {
+                Timber.d("Current thread loadMovieData ${Thread.currentThread().name}")
                 isDataLoading.postValue(true)
                 val result = search(searchTerm, pageNumber)
                 if (result is Result.Success) {
                     totalSearchResults = result.data.totalResults
                     sourceLoaded(result.data.movieSearchResults)
                 } else if (result is Result.Error) {
-                    loadFailed(result.exception.message.toString())
+                  loadFailed(result.exception.message.toString())
                 }
             }
         } else {
@@ -112,15 +116,9 @@ class MovieViewModel @Inject constructor(
     }
 
     suspend fun isFavorite(movie: Movie): Boolean {
-        val count = GlobalScope.async {
+        val count = async(coroutineContext) {
             dataRepo.isFavorite(movie.imdbId)
         }.await()
         return count > 0
-    }
-
-    fun addToFavorite(movie: Movie) {
-        val entry = FavoriteEntry(title = movie.title,imdbid = movie.imdbId,
-                poster = movie.poster)
-        dataRepo.addMovieToFavorites(entry)
     }
 }

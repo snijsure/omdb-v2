@@ -10,26 +10,27 @@ import com.snijsure.omdbsearch.util.Constants
 import com.snijsure.omdbsearch.util.NetworkUtil
 import com.snijsure.utility.CoroutinesContextProvider
 import com.snijsure.utility.safeApiCall
-import kotlinx.coroutines.CoroutineStart
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
 
 class MovieDetailViewModel @Inject constructor(
     private val service: OmdbSearchService,
     private val networkUtil: NetworkUtil,
     private val contextProvider: CoroutinesContextProvider
-) : ViewModel(),
+) : ViewModel(), CoroutineScope,
     LoadSourceCallback {
+
+    override val coroutineContext: CoroutineContext
+        get() = contextProvider.io + pendingJobs
 
     val isDataLoading = MutableLiveData<Boolean>().apply {
         this.value = false
     }
-    var pendingSearchFetcherJob: Job? = null
+    private var pendingJobs = Job()
     val movieDetail: MutableLiveData<MovieDetail> = MutableLiveData()
 
     val dataLoadStatus = MutableLiveData<String>()
@@ -51,7 +52,7 @@ class MovieDetailViewModel @Inject constructor(
     override fun onCleared() {
         super.onCleared()
         try {
-            pendingSearchFetcherJob?.cancel()
+            pendingJobs.cancel()
         } catch (e: Exception) {
             Timber.e(e, "Error while cancelling job")
         }
@@ -60,9 +61,7 @@ class MovieDetailViewModel @Inject constructor(
 
     fun loadMovieDetail(movieId: String) {
         if (networkUtil.isNetworkConnected()) {
-            pendingSearchFetcherJob = GlobalScope.launch(contextProvider.io,
-                CoroutineStart.DEFAULT
-            ) {
+            launch(coroutineContext)  {
                 isDataLoading.postValue(true)
                 val result = movieDetail(movieId)
                 if (result is Result.Success) {

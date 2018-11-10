@@ -16,6 +16,9 @@ interface FavoriteDao {
     @Query("SELECT COUNT(*) FROM favorites WHERE imdbid = :movieId")
     fun isFavorite(movieId: String) : Int
 
+    @Query("DELETE FROM favorites WHERE imdbid = :movieId")
+    fun removeEntryFromFavorites(movieId: String)
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun addMovieToFavorites(movie: FavoriteEntry)
 }

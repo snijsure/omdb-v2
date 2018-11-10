@@ -1,6 +1,8 @@
 package com.snijsure.dbrepository
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
+import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.Observer
 import android.arch.persistence.room.Room
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
@@ -9,7 +11,8 @@ import com.snijsure.dbrepository.repo.room.FavoriteDBRepoImpl
 import com.snijsure.dbrepository.repo.room.FavoriteEntry
 import com.snijsure.dbrepository.repo.room.FavoriteRoomDb
 import com.snijsure.utility.CoroutinesContextProvider
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -17,11 +20,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.MockitoAnnotations
-import javax.xml.datatype.DatatypeConstants.SECONDS
-import android.R.attr.countDown
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.Observer
-import android.support.annotation.Nullable
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
@@ -33,7 +31,7 @@ class DatabaseTest {
     @Rule
     val instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    lateinit var repo: DataRepository // Object under test
+    private lateinit var repo: DataRepository // Object under test
     private var db: FavoriteRoomDb? = null
 
 

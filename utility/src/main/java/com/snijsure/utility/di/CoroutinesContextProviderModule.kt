@@ -12,8 +12,5 @@ import kotlinx.coroutines.Dispatchers
 class CoroutinesContextProviderModule {
 
     @Provides
-    fun provideCoroutinesContextProvider() = CoroutinesContextProvider(
-        Dispatchers
-            .Main, Dispatchers.Default
-    )
+    fun provideCoroutinesContextProvider() = CoroutinesContextProvider(Dispatchers.Main, Dispatchers.IO)
 }

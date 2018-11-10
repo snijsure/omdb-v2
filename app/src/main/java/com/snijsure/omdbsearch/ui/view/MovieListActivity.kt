@@ -18,23 +18,20 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import butterknife.BindView
 import butterknife.ButterKnife
+import com.snijsure.dbrepository.repo.room.DataRepository
 import com.snijsure.omdbsearch.R
 import com.snijsure.omdbsearch.data.Movie
 import com.snijsure.omdbsearch.ui.viewmodel.MovieViewModel
 import com.snijsure.omdbsearch.ui.viewmodel.MovieViewModelFactory
 import com.snijsure.omdbsearch.util.InfiniteScrollListener
 import com.snijsure.omdbsearch.util.NetworkUtil
+import com.snijsure.utility.CoroutinesContextProvider
 import dagger.android.AndroidInjection
 import javax.inject.Inject
 
 
 /**
- * An activity representing a list of Pings. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a [MovieDetailActivity] representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
+ * This activity displayes list of movies retrieved using OMDB API
  */
 class MovieListActivity : AppCompatActivity() {
     @Inject
@@ -42,6 +39,9 @@ class MovieListActivity : AppCompatActivity() {
 
     @Inject
     lateinit var networkUtil: NetworkUtil
+    @Inject
+    lateinit var dataRepo: DataRepository
+
     lateinit var movieViewModel: MovieViewModel
     lateinit var adapter: MovieAdapter
     lateinit var searchView: SearchView
@@ -107,13 +107,10 @@ class MovieListActivity : AppCompatActivity() {
     private fun setupRecyclerView() {
 
         recyclerView.setHasFixedSize(true)
-        val decoration = DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL)
-        this.getDrawable(android.R.drawable.divider_horizontal_bright)?.let { drawable ->
-            decoration.setDrawable(drawable)
-        }
+        val decoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         recyclerView.addItemDecoration(decoration)
         val layoutManager = LinearLayoutManager(this)
-        adapter = MovieAdapter(this,movieViewModel)
+        adapter = MovieAdapter(this,movieViewModel,dataRepo)
 
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
@@ -167,68 +164,6 @@ class MovieListActivity : AppCompatActivity() {
             }
         })
     }
-
-
-    /*
-     private fun setupRecyclerView(recyclerView: RecyclerView) {
-        recyclerView.adapter = SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, twoPane)
-    }
-    class SimpleItemRecyclerViewAdapter(
-        private val parentActivity: MovieListActivity,
-        private val values: List<DummyContent.DummyItem>,
-        private val twoPane: Boolean
-    ) :
-        RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
-
-        private val onClickListener: View.OnClickListener
-
-        init {
-            onClickListener = View.OnClickListener { v ->
-                val item = v.tag as DummyContent.DummyItem
-                if (twoPane) {
-                    val fragment = MovieDetailFragment().apply {
-                        arguments = Bundle().apply {
-                            putString(MovieDetailFragment.ARG_ITEM_ID, item.id)
-                        }
-                    }
-                    parentActivity.supportFragmentManager
-                        .beginTransaction()
-                        .replace(R.id.movie_detail_container, fragment)
-                        .commit()
-                } else {
-                    val intent = Intent(v.context, MovieDetailActivity::class.java).apply {
-                        putExtra(MovieDetailFragment.ARG_ITEM_ID, item.id)
-                    }
-                    v.context.startActivity(intent)
-                }
-            }
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.movie_list_content, parent, false)
-            return ViewHolder(view)
-        }
-
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val item = values[position]
-            holder.idView.text = item.id
-            holder.contentView.text = item.content
-
-            with(holder.itemView) {
-                tag = item
-                setOnClickListener(onClickListener)
-            }
-        }
-
-        override fun getItemCount() = values.size
-
-        inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-            val idView: TextView = view.id_text
-            val contentView: TextView = view.content
-        }
-    }
-    */
 
     // Reference: https://antonioleiva.com/kotlin-awesome-tricks-for-android/
     private inline fun consume(f: () -> Unit): Boolean {

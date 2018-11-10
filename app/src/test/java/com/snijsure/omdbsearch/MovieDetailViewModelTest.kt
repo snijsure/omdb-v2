@@ -12,7 +12,6 @@ import com.snijsure.utility.CoroutinesContextProvider
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.Job
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -38,8 +37,6 @@ class MovieDetailViewModelTest {
     @Mock
     lateinit var mockResponse: Response<MovieDetail>
     @Mock
-    lateinit var mockJob: Job
-    @Mock
     lateinit var movieDetailObserver: Observer<MovieDetail>
     @Mock
     lateinit var dataLoadingObserver: Observer<Boolean>
@@ -57,7 +54,6 @@ class MovieDetailViewModelTest {
             mockOmdbService,
             mockNetworkUtil,
             mockContextProvider)
-        movieDetailViewModel.pendingSearchFetcherJob = mockJob
 
     }
 
