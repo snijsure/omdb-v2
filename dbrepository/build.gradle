@@ -31,16 +31,6 @@ android {
             includeAndroidResources = true
         }
     }
-
-    spotless {
-        java {
-            // ...
-            target '**/*.java'
-            target '**/*.kt'
-
-            // ...
-        }
-    }
 }
 
 dependencies {
