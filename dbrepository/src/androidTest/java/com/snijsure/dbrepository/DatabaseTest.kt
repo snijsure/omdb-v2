@@ -45,8 +45,9 @@ class DatabaseTest {
         ).allowMainThreadQueries() //allowing main thread queries, just for testing
             .build()
         val dbImpl = FavoriteDBRepoImpl(db!!.favoriteDao(), CoroutinesContextProvider(
-            Dispatchers.Unconfined,
-            Dispatchers.Unconfined)
+            main  = Dispatchers.Unconfined,
+            io = Dispatchers.Unconfined,
+            computation = Dispatchers.Unconfined)
         )
         repo = DataRepository(dbImpl)
     }

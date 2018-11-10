@@ -32,6 +32,15 @@ android {
         }
     }
 
+    spotless {
+        java {
+            // ...
+            target '**/*.java'
+            target '**/*.kt'
+
+            // ...
+        }
+    }
 }
 
 dependencies {

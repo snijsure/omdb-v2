@@ -19,7 +19,6 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
-import kotlin.coroutines.CoroutineContext
 
 
 class MovieViewModel @Inject constructor(
@@ -27,10 +26,8 @@ class MovieViewModel @Inject constructor(
     private val networkUtil: NetworkUtil,
     private val contextProvider: CoroutinesContextProvider,
     private val dataRepo: DataRepository
-) : ViewModel(),CoroutineScope, LoadSourceCallback {
+) : ViewModel(), LoadSourceCallback {
 
-    override val coroutineContext: CoroutineContext
-        get() = contextProvider.io + pendingJobs
 
     val isDataLoading = MutableLiveData<Boolean>().apply {
         this.value = false
@@ -39,6 +36,7 @@ class MovieViewModel @Inject constructor(
     private val pendingJobs = Job()
     val movieData: MutableLiveData<List<Movie>> = MutableLiveData()
     val dataLoadStatus = MutableLiveData<String>()
+    private val coroutineScope = CoroutineScope(contextProvider.io + pendingJobs)
 
     var pageNumber = 1
 
@@ -69,7 +67,7 @@ class MovieViewModel @Inject constructor(
 
     fun loadMovieData(searchTerm: String) {
         if (networkUtil.isNetworkConnected()) {
-            launch (coroutineContext) {
+            coroutineScope.launch {
                 Timber.d("Current thread loadMovieData ${Thread.currentThread().name}")
                 isDataLoading.postValue(true)
                 val result = search(searchTerm, pageNumber)
@@ -116,7 +114,7 @@ class MovieViewModel @Inject constructor(
     }
 
     suspend fun isFavorite(movie: Movie): Boolean {
-        val count = async(coroutineContext) {
+        val count = coroutineScope.async {
             dataRepo.isFavorite(movie.imdbId)
         }.await()
         return count > 0
