@@ -16,14 +16,19 @@ import com.snijsure.omdbsearch.R
 import com.snijsure.omdbsearch.data.Movie
 import com.snijsure.omdbsearch.databinding.MovieListBinding
 import com.snijsure.omdbsearch.ui.viewmodel.MovieViewModel
+import com.snijsure.utility.CoroutinesContextProvider
 import kotlinx.coroutines.*
 import timber.log.Timber
 
 class MovieAdapter(
     private val activity: Activity,
     private val viewModel: MovieViewModel,
-    private val dataRepo: DataRepository
+    private val dataRepo: DataRepository,
+    private val contextProvider: CoroutinesContextProvider
 ) :RecyclerView.Adapter<MovieAdapter.MovieInfoHolder>() {
+
+    private val pendingJobs = Job()
+    private val coroutineScope = CoroutineScope(contextProvider.io + pendingJobs)
 
     private var layoutInflater: LayoutInflater? = null
     var movieList = mutableListOf<Movie>()
@@ -47,7 +52,7 @@ class MovieAdapter(
     override fun onBindViewHolder(holder: MovieInfoHolder, position: Int) {
         holder.binding.movie = movieList[position]
         holder.binding.movie?.let { it ->
-            GlobalScope.launch(Dispatchers.IO) {
+            coroutineScope.launch {
                 var visibility = View.GONE
                 if (it.imdbId.isNotEmpty())
                     visibility = if (viewModel.isFavorite(it))
@@ -73,7 +78,7 @@ class MovieAdapter(
          */
         override fun onLongClick(v: View?): Boolean {
             var visibility: Int
-             GlobalScope.launch(Dispatchers.IO) {
+            coroutineScope.launch {
                 try {
                     val movie = movieList[adapterPosition]
                     if (dataRepo.isFavorite(movie.imdbId) != 0) {
@@ -85,7 +90,7 @@ class MovieAdapter(
                         dataRepo.addMovieToFavorites(entry)
                         visibility = View.VISIBLE
                     }
-                    withContext(Dispatchers.Main) {
+                    withContext(contextProvider.main) {
                         binding.movieFav.visibility = visibility
                     }
                 } catch (e: Exception) {
