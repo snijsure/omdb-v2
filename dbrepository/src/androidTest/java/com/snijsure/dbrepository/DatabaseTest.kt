@@ -71,11 +71,10 @@ class DatabaseTest {
     }
 
     @Test
-    fun getAllItems() {
+    fun  getAllItems() {
 
         createEntries()
-
-        val ret = getLiveDataValue(repo.getFavorites())
+        val ret = getLiveDataValue(runBlocking {  repo.getFavorites() })
 
         assertTrue(4 == ret.size)
         assertTrue(ret[3].imdbid == "id5")

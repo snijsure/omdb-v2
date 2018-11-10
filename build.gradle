@@ -69,14 +69,9 @@ subprojects {
         }
         java {
             target '**/*.java'
-            // optional: you can specify a specific version and/or switch to AOSP style
             googleJavaFormat('1.1').aosp()
-            // you can then layer other format steps, such as
             licenseHeaderFile project.rootProject.file('spotless/copyright.java')
-            //removeUnusedImports()
-        }
-        groovyGradle {
-            target '**/*.gradle'
+            removeUnusedImports()
         }
     }
 }
