@@ -10,5 +10,7 @@
     <string name="year">Year\u0020\u0020\u0020</string>
     <string name="sharedText">SharedTextElement</string>
     <string name="sharedImageView">SharedImageViewElement</string>
+    <string name="loading_text">Fetching data</string>
+    <string name="welcome_text">Click on search icon to search for movies</string>
 
 </resources>

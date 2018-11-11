@@ -5,16 +5,14 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.SearchView
+import android.support.v7.widget.*
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.RelativeLayout
 import android.widget.Toast
 import butterknife.BindView
 import butterknife.ButterKnife
@@ -36,7 +34,6 @@ import javax.inject.Inject
 class MovieListActivity : AppCompatActivity() {
     @Inject
     lateinit var movieModelViewFactory: MovieViewModelFactory
-
     @Inject
     lateinit var networkUtil: NetworkUtil
     @Inject
@@ -47,14 +44,18 @@ class MovieListActivity : AppCompatActivity() {
     lateinit var movieViewModel: MovieViewModel
     lateinit var adapter: MovieAdapter
     lateinit var searchView: SearchView
+
     @BindView(R.id.movie_list_view)
     lateinit var recyclerView: RecyclerView
     @BindView(R.id.no_connection)
-    lateinit var noConnection: ImageView
+    lateinit var noConnection: AppCompatTextView
     @BindView(R.id.busy_indicator)
-    lateinit var busyIndicator: ProgressBar
+    lateinit var busyIndicator: RelativeLayout
+    @BindView(R.id.welcome_text)
+    lateinit var welcomeText: AppCompatTextView
     @BindView(R.id.rootView)
     lateinit var rootView: ConstraintLayout
+
     private var endOfResultsShown = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -86,6 +87,8 @@ class MovieListActivity : AppCompatActivity() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 // Reset page number and do search also clear previous search results
+                recyclerView.visibility = View.VISIBLE
+                welcomeText.visibility = View.GONE
                 adapter.movieList.clear()
                 adapter.notifyDataSetChanged()
                 movieViewModel.pageNumber = 1
@@ -181,6 +184,7 @@ class MovieListActivity : AppCompatActivity() {
         else {
             noConnection.visibility = View.VISIBLE
             recyclerView.visibility = View.GONE
+            welcomeText.visibility = View.GONE
         }
     }
 }
