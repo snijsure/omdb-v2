@@ -80,6 +80,8 @@ class MovieAdapter(
             var visibility: Int
             coroutineScope.launch {
                 try {
+                    // Question: Should UI be calling ViewModel and let ViewModel tell
+                    // it item is favored or directly use datarepo??
                     val movie = movieList[adapterPosition]
                     if (dataRepo.isFavorite(movie.imdbId) != 0) {
                         visibility = View.GONE
