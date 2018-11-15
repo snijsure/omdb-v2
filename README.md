@@ -16,7 +16,7 @@ Some notes:
 
 * I created this project as part of my job search, everyone loves to ask cookie cutter question about implement 
   sample app that does some network I/O and display items. 
-  Of course that is 100% better than freak show that is technical screening, reversing string, counting number of repeating characters, explain how bit.ly is implemented,
-  or any other completely irrelevant questions that hacker-rank or other live coding platforms throw up.
+  __**Of course that is 100% better than freak show that is technical screening, reversing string, counting number of repeating characters, explain how bit.ly is implemented,
+  or any other completely irrelevant questions that hacker-rank or other live coding platforms throw up.**__
 
 * Would absolutely love feedback on architecture/code of this *SAMPLE* app. You can reach me at subodh-dot-nijsure-at-gmail.com
