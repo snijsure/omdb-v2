@@ -45,6 +45,7 @@ buildscript {
         maven { url 'http://dl.bintray.com/kotlin/kotlin-eap' }
     }
 
+
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
@@ -56,6 +57,7 @@ buildscript {
 
 plugins {
     id 'com.diffplug.gradle.spotless' version '3.16.0'
+    id("org.jmailen.kotlinter") version "1.20.1"
 }
 
 subprojects {

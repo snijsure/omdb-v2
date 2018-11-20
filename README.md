@@ -10,6 +10,8 @@ Some notes:
 
 * You will find unit test for MovieViewModel in MovieViewModelTest
 
+* You can run ktlint using target ./gradlew lintKotlin and fix things using formatKotlin
+
 * You can compile APK from command line using ./grawdlew clean assembleDebug and install APK found in ./app/build/outputs/apk/debug/app-debug.apk
 
 * Note you can't build assembleRelease target as there is no signing config defined.

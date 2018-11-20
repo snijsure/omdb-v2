@@ -20,14 +20,12 @@ import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 
-
 class MovieViewModel @Inject constructor(
     private val service: OmdbSearchService,
     private val networkUtil: NetworkUtil,
     private val contextProvider: CoroutinesContextProvider,
     private val dataRepo: DataRepository
 ) : ViewModel(), LoadSourceCallback {
-
 
     val isDataLoading = MutableLiveData<Boolean>().apply {
         this.value = false
@@ -83,8 +81,6 @@ class MovieViewModel @Inject constructor(
             dataLoadStatus.postValue(Constants.NO_NETWORK_CONNECTION)
         }
     }
-
-
 
     private suspend fun search(
         query: String,

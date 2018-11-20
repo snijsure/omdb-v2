@@ -2,7 +2,6 @@ package com.snijsure.omdbsearch.data
 
 import com.google.gson.annotations.SerializedName
 
-
 data class MovieDetail(
     @SerializedName("Title") var title: String,
     @SerializedName("Director") var director: String,

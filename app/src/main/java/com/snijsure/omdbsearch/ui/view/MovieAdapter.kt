@@ -1,6 +1,5 @@
 package com.snijsure.omdbsearch.ui.view
 
-
 import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Intent
@@ -25,7 +24,7 @@ class MovieAdapter(
     private val viewModel: MovieViewModel,
     private val dataRepo: DataRepository,
     private val contextProvider: CoroutinesContextProvider
-) :RecyclerView.Adapter<MovieAdapter.MovieInfoHolder>() {
+) : RecyclerView.Adapter<MovieAdapter.MovieInfoHolder>() {
 
     private val pendingJobs = Job()
     private val coroutineScope = CoroutineScope(contextProvider.io + pendingJobs)
@@ -131,5 +130,4 @@ class MovieAdapter(
         }
     }
 }
-
 

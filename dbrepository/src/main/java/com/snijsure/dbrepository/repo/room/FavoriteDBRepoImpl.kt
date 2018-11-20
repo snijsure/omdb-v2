@@ -5,10 +5,11 @@ import com.snijsure.utility.CoroutinesContextProvider
 import kotlinx.coroutines.*
 import timber.log.Timber
 import javax.inject.Inject
-import kotlin.coroutines.CoroutineContext
 
-class FavoriteDBRepoImpl @Inject constructor(private val favDao: FavoriteDao,
-                                             private val contextProvider: CoroutinesContextProvider) :
+class FavoriteDBRepoImpl @Inject constructor(
+    private val favDao: FavoriteDao,
+    private val contextProvider: CoroutinesContextProvider
+) :
     FavoriteDBRepo {
     private val pendingJob = Job()
     private val coroutineScope = CoroutineScope(contextProvider.io + pendingJob)
@@ -35,9 +36,8 @@ class FavoriteDBRepoImpl @Inject constructor(private val favDao: FavoriteDao,
         coroutineScope.launch {
             try {
                 favDao.addMovieToFavorites(movie)
-            }
-            catch(e: Exception) {
-                Timber.e(e,"Exception while adding movie to favorites")
+            } catch (e: Exception) {
+                Timber.e(e, "Exception while adding movie to favorites")
             }
         }
     }

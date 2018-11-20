@@ -19,7 +19,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-
 @Module
 class NetworkModule {
 
@@ -30,7 +29,6 @@ class NetworkModule {
     @Provides
     @Singleton
     fun providesMoshi(): Moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-
 
     @Provides
     fun provideRetrofitBuilder() = Retrofit.Builder()
@@ -46,7 +44,6 @@ class NetworkModule {
             .client(provideOkHttpClient(provideLoggingInterceptor(), provideApiKeyInterceptor()))
             .build()
     }
-
 
     @Provides
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
@@ -75,20 +72,20 @@ class NetworkModule {
             .build()
 
     @Provides
-    fun provideConnectivityManager(application : Application) : ConnectivityManager? {
+    fun provideConnectivityManager(application: Application): ConnectivityManager? {
         return try {
             application.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        } catch(e: Exception) {
+        } catch (e: Exception) {
             null
         }
     }
 
     @SuppressLint("MissingPermission")
     @Provides
-    fun provideNetworkCapabilities(connectivityManager: ConnectivityManager?) : NetworkCapabilities? {
+    fun provideNetworkCapabilities(connectivityManager: ConnectivityManager?): NetworkCapabilities? {
         return try {
             connectivityManager?.getNetworkCapabilities(connectivityManager.activeNetwork)
-        } catch(e: Exception) {
+        } catch (e: Exception) {
             null
         }
     }

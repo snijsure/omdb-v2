@@ -14,8 +14,6 @@ import kotlinx.coroutines.*
 import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
-import kotlin.coroutines.CoroutineContext
-
 
 class MovieDetailViewModel @Inject constructor(
     private val service: OmdbSearchService,
@@ -57,10 +55,9 @@ class MovieDetailViewModel @Inject constructor(
         }
     }
 
-
     fun loadMovieDetail(movieId: String) {
         if (networkUtil.isNetworkConnected()) {
-            coroutineScope.launch  {
+            coroutineScope.launch {
                 isDataLoading.postValue(true)
                 val result = movieDetail(movieId)
                 if (result is Result.Success) {
@@ -81,7 +78,6 @@ class MovieDetailViewModel @Inject constructor(
         call = { getMovieDetail(movieId) },
         errorMessage = Constants.API_RESPONSE_ERROR
     )
-
 
     private suspend fun getMovieDetail(
         movieId: String

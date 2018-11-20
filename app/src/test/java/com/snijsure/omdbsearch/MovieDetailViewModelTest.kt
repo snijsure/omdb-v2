@@ -23,7 +23,6 @@ import org.mockito.MockitoAnnotations
 import retrofit2.Response
 import retrofit2.mock.Calls
 
-
 class MovieDetailViewModelTest {
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
@@ -55,7 +54,6 @@ class MovieDetailViewModelTest {
             mockOmdbService,
             mockNetworkUtil,
             mockContextProvider)
-
     }
 
     @Test
@@ -66,7 +64,6 @@ class MovieDetailViewModelTest {
 
         Assert.assertEquals(Constants.NO_NETWORK_CONNECTION, movieDetailViewModel.dataLoadStatus.value)
         Assert.assertEquals(false, movieDetailViewModel.isDataLoading.value)
-
     }
 
     // Simulate condition where API doesn't respond
@@ -98,7 +95,6 @@ class MovieDetailViewModelTest {
         Assert.assertEquals(Constants.API_RESPONSE_ERROR, movieDetailViewModel.dataLoadStatus.value)
     }
 
-
     @Test
     fun loadMovieDetails() {
         val movieDetails = setupMovieDetails()
@@ -118,17 +114,12 @@ class MovieDetailViewModelTest {
 
         movieDetailViewModel.loadMovieDetail("1234")
 
-
-
         verify(movieDetailObserver, Mockito.times(1)).onChanged(movieDetails)
         verify(dataLoadingObserver, Mockito.times(2)).onChanged(false)
         verify(dataLoadingObserver, Mockito.times(1)).onChanged(true)
-
     }
 
     private fun setupMovieDetails(): MovieDetail {
-        return MovieDetail("Movie1","Director1","2001","Plot1","http://poster")
-
+        return MovieDetail("Movie1", "Director1", "2001", "Plot1", "http://poster")
     }
-
 }

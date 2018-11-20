@@ -22,7 +22,7 @@ class MovieDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
-        val dataBinding = DataBindingUtil.setContentView<ActivityMovieDetailBinding>(this,R.layout.activity_movie_detail)
+        val dataBinding = DataBindingUtil.setContentView<ActivityMovieDetailBinding>(this, R.layout.activity_movie_detail)
 
         movieDetailViewModel = ViewModelProviders.of(this, movieDetailViewModelFactory).get(MovieDetailViewModel::class.java)
 
@@ -44,7 +44,6 @@ class MovieDetailActivity : AppCompatActivity() {
         finishAfterTransition()
         return true
     }
-
 
     companion object {
         const val IMDB_ID = "item_id"

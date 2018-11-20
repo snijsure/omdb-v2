@@ -15,11 +15,10 @@ interface OmdbSearchService {
         @Query("page") pageNumber: Int
     ): Deferred<Response<MovieSearchResponse>>
 
-
     @GET("/")
     fun movieDetailDeferred(
         @Query("i") movieId: String,
-        @Query("plot") plotType : String = "short"
+        @Query("plot") plotType: String = "short"
     ): Deferred<Response<MovieDetail>>
 
     companion object {

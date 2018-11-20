@@ -29,5 +29,4 @@ class OmdbApplication : Application(), HasActivityInjector {
     }
 
     override fun activityInjector(): AndroidInjector<Activity> = activityInjector
-
 }
