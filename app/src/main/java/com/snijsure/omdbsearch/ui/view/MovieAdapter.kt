@@ -1,6 +1,5 @@
 package com.snijsure.omdbsearch.ui.view
 
-
 import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Intent
@@ -17,7 +16,12 @@ import com.snijsure.omdbsearch.data.Movie
 import com.snijsure.omdbsearch.databinding.MovieListBinding
 import com.snijsure.omdbsearch.ui.viewmodel.MovieViewModel
 import com.snijsure.utility.CoroutinesContextProvider
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.Dispatchers
+
 import timber.log.Timber
 
 class MovieAdapter(
@@ -25,7 +29,7 @@ class MovieAdapter(
     private val viewModel: MovieViewModel,
     private val dataRepo: DataRepository,
     private val contextProvider: CoroutinesContextProvider
-) :RecyclerView.Adapter<MovieAdapter.MovieInfoHolder>() {
+) : RecyclerView.Adapter<MovieAdapter.MovieInfoHolder>() {
 
     private val pendingJobs = Job()
     private val coroutineScope = CoroutineScope(contextProvider.io + pendingJobs)
@@ -131,5 +135,3 @@ class MovieAdapter(
         }
     }
 }
-
-

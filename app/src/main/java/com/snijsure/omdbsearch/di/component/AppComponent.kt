@@ -2,12 +2,13 @@ package com.snijsure.omdbsearch.di.component
 
 import com.snijsure.dbrepository.di.FavoriteDatabaseModule
 import com.snijsure.omdbsearch.OmdbApplication
-import com.snijsure.omdbsearch.di.modules.*
+import com.snijsure.omdbsearch.di.modules.AppModule
+import com.snijsure.omdbsearch.di.modules.UiModule
+import com.snijsure.omdbsearch.di.modules.NetworkModule
 import com.snijsure.utility.di.CoroutinesContextProviderModule
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import javax.inject.Singleton
-
 
 @Singleton
 @Component(

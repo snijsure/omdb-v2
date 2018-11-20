@@ -4,8 +4,6 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import javax.inject.Inject
 
-
-
 @Suppress("UNCHECKED_CAST")
 class MovieDetailViewModelFactory @Inject constructor(private val movieDetailViewModel: MovieDetailViewModel) : ViewModelProvider.Factory {
 

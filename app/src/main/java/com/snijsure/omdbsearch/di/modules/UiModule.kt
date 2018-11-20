@@ -1,6 +1,5 @@
 package com.snijsure.omdbsearch.di.modules
 
-
 import com.snijsure.omdbsearch.ui.view.MovieDetailActivity
 import com.snijsure.omdbsearch.ui.view.MovieListActivity
 import dagger.Module

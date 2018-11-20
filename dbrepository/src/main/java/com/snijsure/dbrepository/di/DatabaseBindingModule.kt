@@ -10,5 +10,4 @@ abstract class DatabaseBindingModule {
 
     @Binds
     abstract fun bindFavRepository(impl: FavoriteDBRepoImpl): FavoriteDBRepo
-
 }

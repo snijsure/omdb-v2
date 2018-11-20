@@ -5,13 +5,15 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.*
+import android.support.v7.widget.AppCompatTextView
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SearchView
+import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.Toast
 import butterknife.BindView
@@ -26,7 +28,6 @@ import com.snijsure.omdbsearch.util.NetworkUtil
 import com.snijsure.utility.CoroutinesContextProvider
 import dagger.android.AndroidInjection
 import javax.inject.Inject
-
 
 /**
  * This activity displayes list of movies retrieved using OMDB API
@@ -74,7 +75,6 @@ class MovieListActivity : AppCompatActivity() {
         rootView.requestFocus()
     }
 
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.main_menu, menu)
 
@@ -103,7 +103,6 @@ class MovieListActivity : AppCompatActivity() {
         return true
     }
 
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         android.R.id.home -> consume { onBackPressed() }
         else -> super.onOptionsItemSelected(item)
@@ -115,7 +114,7 @@ class MovieListActivity : AppCompatActivity() {
         val decoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         recyclerView.addItemDecoration(decoration)
         val layoutManager = LinearLayoutManager(this)
-        adapter = MovieAdapter(this,movieViewModel,dataRepo,contextProvider)
+        adapter = MovieAdapter(this, movieViewModel, dataRepo, contextProvider)
 
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
@@ -129,8 +128,7 @@ class MovieListActivity : AppCompatActivity() {
                     if (str.isNotEmpty()) {
                         movieViewModel.loadMovieData(str)
                     }
-                }
-                else {
+                } else {
                     if (!endOfResultsShown) {
                         Toast.makeText(
                             applicationContext,
@@ -143,7 +141,6 @@ class MovieListActivity : AppCompatActivity() {
             }
         })
     }
-
 
     private fun setupViewModelObservers() {
         movieViewModel.movieData.observe(this, Observer<List<Movie>> {
@@ -163,7 +160,7 @@ class MovieListActivity : AppCompatActivity() {
             }
         })
 
-        movieViewModel.dataLoadStatus.observe(this,Observer<String> {
+        movieViewModel.dataLoadStatus.observe(this, Observer<String> {
             it?.let { statusMessage ->
                 Toast.makeText(applicationContext, statusMessage, Toast.LENGTH_LONG).show()
             }
@@ -180,8 +177,7 @@ class MovieListActivity : AppCompatActivity() {
         if (networkUtil.isNetworkConnected()) {
             noConnection.visibility = View.GONE
             recyclerView.visibility = View.VISIBLE
-        }
-        else {
+        } else {
             noConnection.visibility = View.VISIBLE
             recyclerView.visibility = View.GONE
             welcomeText.visibility = View.GONE

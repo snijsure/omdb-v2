@@ -8,7 +8,6 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-
 @Module(includes = [
     (DatabaseBindingModule::class), (CoroutinesContextProviderModule::class)
 ])
@@ -24,5 +23,4 @@ class FavoriteDatabaseModule {
     fun provideBookmarkEntryDao(db: FavoriteRoomDb): FavoriteDao {
         return db.favoriteDao()
     }
-
 }

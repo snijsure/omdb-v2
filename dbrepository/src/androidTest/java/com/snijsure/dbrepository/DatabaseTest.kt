@@ -23,7 +23,6 @@ import org.mockito.MockitoAnnotations
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
-
 @RunWith(AndroidJUnit4::class)
 class DatabaseTest {
 
@@ -34,7 +33,6 @@ class DatabaseTest {
     private lateinit var repo: DataRepository // Object under test
     private var db: FavoriteRoomDb? = null
 
-
     @Before
     fun initDb() {
         MockitoAnnotations.initMocks(this)
@@ -42,10 +40,10 @@ class DatabaseTest {
         db = Room.inMemoryDatabaseBuilder(
             InstrumentationRegistry.getContext(),
             FavoriteRoomDb::class.java
-        ).allowMainThreadQueries() //allowing main thread queries, just for testing
+        ).allowMainThreadQueries() // allowing main thread queries, just for testing
             .build()
         val dbImpl = FavoriteDBRepoImpl(db!!.favoriteDao(), CoroutinesContextProvider(
-            main  = Dispatchers.Unconfined,
+            main = Dispatchers.Unconfined,
             io = Dispatchers.Unconfined,
             computation = Dispatchers.Unconfined)
         )
@@ -62,32 +60,31 @@ class DatabaseTest {
 
         createEntries()
 
-        var ret = runBlocking {  repo.isFavorite("id1") }
+        var ret = runBlocking { repo.isFavorite("id1") }
         assertTrue(ret == 1)
-        ret = runBlocking {  repo.isFavorite("id2") }
+        ret = runBlocking { repo.isFavorite("id2") }
         assertTrue(ret == 1)
-        ret = runBlocking {  repo.isFavorite("id3") }
+        ret = runBlocking { repo.isFavorite("id3") }
         assertTrue(ret == 0)
     }
 
     @Test
-    fun  getAllItems() {
+    fun getAllItems() {
 
         createEntries()
-        val ret = getLiveDataValue(runBlocking {  repo.getFavorites() })
+        val ret = getLiveDataValue(runBlocking { repo.getFavorites() })
 
         assertTrue(4 == ret.size)
         assertTrue(ret[3].imdbid == "id5")
         assertTrue(ret[3].poster == "poster5")
-
     }
 
     private fun createEntries() {
         // Make sure we find items id1 & id2 but don't find id3
-        val fav1 = FavoriteEntry(title = "movie1",imdbid = "id1",poster = "poster1")
-        val fav2 = FavoriteEntry(title = "movie2",imdbid = "id2",poster = "poster2")
-        val fav4 = FavoriteEntry(title = "movie4",imdbid = "id4",poster = "poster4")
-        val fav5 = FavoriteEntry(title = "movie5",imdbid = "id5",poster = "poster5")
+        val fav1 = FavoriteEntry(title = "movie1", imdbid = "id1", poster = "poster1")
+        val fav2 = FavoriteEntry(title = "movie2", imdbid = "id2", poster = "poster2")
+        val fav4 = FavoriteEntry(title = "movie4", imdbid = "id4", poster = "poster4")
+        val fav5 = FavoriteEntry(title = "movie5", imdbid = "id5", poster = "poster5")
 
         repo.addMovieToFavorites(fav1)
         repo.addMovieToFavorites(fav2)

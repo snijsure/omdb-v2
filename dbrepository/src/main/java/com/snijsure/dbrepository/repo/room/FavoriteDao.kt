@@ -6,7 +6,6 @@ import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 
-
 @Dao
 interface FavoriteDao {
 
@@ -14,7 +13,7 @@ interface FavoriteDao {
     fun getFavorites(): LiveData<List<FavoriteEntry>>
 
     @Query("SELECT COUNT(*) FROM favorites WHERE imdbid = :movieId")
-    fun isFavorite(movieId: String) : Int
+    fun isFavorite(movieId: String): Int
 
     @Query("DELETE FROM favorites WHERE imdbid = :movieId")
     fun removeEntryFromFavorites(movieId: String)
