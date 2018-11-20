@@ -73,7 +73,7 @@ class MovieViewModel @Inject constructor(
                     totalSearchResults = result.data.totalResults
                     sourceLoaded(result.data.movieSearchResults)
                 } else if (result is Result.Error) {
-                  loadFailed(result.exception.message.toString())
+                    loadFailed(result.exception.message.toString())
                 }
             }
         } else {

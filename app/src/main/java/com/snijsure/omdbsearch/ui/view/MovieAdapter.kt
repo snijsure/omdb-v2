@@ -16,7 +16,12 @@ import com.snijsure.omdbsearch.data.Movie
 import com.snijsure.omdbsearch.databinding.MovieListBinding
 import com.snijsure.omdbsearch.ui.viewmodel.MovieViewModel
 import com.snijsure.utility.CoroutinesContextProvider
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.coroutines.Dispatchers
+
 import timber.log.Timber
 
 class MovieAdapter(
@@ -130,4 +135,3 @@ class MovieAdapter(
         }
     }
 }
-

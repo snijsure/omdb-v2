@@ -38,9 +38,12 @@ class MovieViewModelTest {
     lateinit var mockContextProvider: CoroutinesContextProvider
     @Mock
     lateinit var mockResponse: Response<MovieSearchResponse>
-    @Mock lateinit var movieListObserver: Observer<List<Movie>>
-    @Mock lateinit var dataLoadingObserver: Observer<Boolean>
-    @Mock lateinit var mockDataRepo: DataRepository
+    @Mock
+    lateinit var movieListObserver: Observer<List<Movie>>
+    @Mock
+    lateinit var dataLoadingObserver: Observer<Boolean>
+    @Mock
+    lateinit var mockDataRepo: DataRepository
     private lateinit var movieViewModel: MovieViewModel
 
     @Before
@@ -104,7 +107,7 @@ class MovieViewModelTest {
 
         movieViewModel.movieData.observeForever(movieListObserver)
         movieViewModel.isDataLoading.observeForever(dataLoadingObserver)
-         whenever(mockResponse.body()).thenReturn(MovieSearchResponse(movieList, movieList.size * 100, "1"))
+        whenever(mockResponse.body()).thenReturn(MovieSearchResponse(movieList, movieList.size * 100, "1"))
         whenever(mockNetworkUtil.isNetworkConnected()).thenReturn(true)
         whenever(mockResponse.isSuccessful).thenReturn(true)
         val searchResponse = Calls.response(mockResponse).execute()
@@ -122,7 +125,8 @@ class MovieViewModelTest {
         assertEquals(2 * 100, movieViewModel.totalSearchResults)
         assertEquals(
             movieList,
-            movieViewModel.movieData.value)
+            movieViewModel.movieData.value
+        )
 
         verify(movieListObserver, times(1)).onChanged(movieList)
         verify(dataLoadingObserver, times(2)).onChanged(false)
