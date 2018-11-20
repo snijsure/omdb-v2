@@ -2,6 +2,7 @@ package com.snijsure.omdbsearch
 
 import android.app.Activity
 import android.app.Application
+import android.support.v7.app.AppCompatDelegate
 import com.snijsure.omdbsearch.di.component.DaggerAppComponent
 import com.snijsure.omdbsearch.di.modules.AppModule
 import com.snijsure.omdbsearch.di.modules.NetworkModule
@@ -18,7 +19,7 @@ class OmdbApplication : Application(), HasActivityInjector {
 
     override fun onCreate() {
         super.onCreate()
-
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO)
         DaggerAppComponent.builder()
             .appModule(AppModule(this))
             .networkModule(NetworkModule())

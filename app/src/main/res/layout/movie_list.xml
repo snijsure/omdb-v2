@@ -32,7 +32,7 @@
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:scaleType="fitXY"
-                    android:src="@android:drawable/ic_lock_idle_alarm"
+                    android:src="@drawable/light_place_holder"
                     tools:src="@tools:sample/avatars"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
@@ -69,6 +69,7 @@
                     android:layout_toEndOf="@id/movie_poster"
                     android:layout_alignParentEnd="true"
                     android:transitionName="@string/sharedText"
+                    android:textColor="?attr/primaryTextColor"
                     android:text="@{movie.title}"/>
 
 
@@ -86,6 +87,7 @@
                     android:layout_toEndOf="@id/movie_poster"
                     android:layout_below="@id/movie_title"
                     android:layout_alignParentEnd="true"
+                    android:textColor="?attr/primaryTextColor"
                     android:text="@{movie.imdbId}"/>
 
         </RelativeLayout>

@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.app.AppCompatDelegate
 import com.snijsure.omdbsearch.R
 import com.snijsure.omdbsearch.data.MovieDetail
 import com.snijsure.omdbsearch.databinding.ActivityMovieDetailBinding
@@ -21,6 +22,12 @@ class MovieDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            setTheme(R.style.OMDBThemeDark)
+        }
+        else {
+            setTheme(R.style.OMDBThemeLight)
+        }
         super.onCreate(savedInstanceState)
         val dataBinding = DataBindingUtil.setContentView<ActivityMovieDetailBinding>(this,R.layout.activity_movie_detail)
 

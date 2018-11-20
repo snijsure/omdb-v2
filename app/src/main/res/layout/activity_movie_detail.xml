@@ -11,7 +11,6 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/darker_gray"
         android:id="@+id/movie_details">
 
     <ImageView
@@ -20,7 +19,8 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:scaleType="fitXY"
-            android:src="@android:drawable/ic_lock_idle_alarm"
+            android:src="@drawable/light_place_holder"
+            tools:src="@tools:sample/avatars"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             android:layout_alignParentTop="true"
@@ -51,6 +51,7 @@
             android:layout_margin="8dp"
             android:layout_marginTop="8dp"
             android:transitionName="@string/sharedText"
+            android:textColor="?attr/primaryTextColor"
             android:text="@{detail.title}"
     />
 
@@ -71,6 +72,7 @@
             android:layout_marginTop="8dp"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintTop_toBottomOf="@+id/movie_title"
+            android:textColor="?attr/primaryTextColor"
             android:text='@{@string/year + detail.year}'/>
 
     <android.support.v7.widget.AppCompatTextView
@@ -91,6 +93,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintTop_toBottomOf="@+id/movie_year"
             app:layout_constraintBottom_toBottomOf="@+id/movie_poster"
+            android:textColor="?attr/primaryTextColor"
             android:text='@{@string/director + detail.director}'
     />
 
@@ -118,6 +121,7 @@
             android:singleLine="false"
             android:breakStrategy="balanced"
             tools:text="@tools:sample/lorem[8]"
+            android:textColor="?attr/primaryTextColor"
             android:text="@{detail.plot}"
 
     />
