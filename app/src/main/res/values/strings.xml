@@ -12,5 +12,8 @@
     <string name="sharedImageView">SharedImageViewElement</string>
     <string name="loading_text">Fetching data</string>
     <string name="welcome_text">Click on search icon to search for movies</string>
+    <string name="text_favorites">Favorites</string>
+    <string name="about_app">About</string>
+    <string name="movie_search">Search Movies</string>
 
 </resources>

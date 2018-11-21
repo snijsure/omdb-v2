@@ -31,7 +31,7 @@
             android:visibility="visible"
             android:contentDescription="@string/welcome_text"
             android:text="@string/welcome_text"
-            android:drawableTop="@drawable/ic_baseline_thumb_up"
+            android:drawableTop="@drawable/ic_outline_movie_24px"
             android:textAppearance="@android:style/TextAppearance.Holo.Large"
             android:textStyle="bold"
             android:gravity="center"

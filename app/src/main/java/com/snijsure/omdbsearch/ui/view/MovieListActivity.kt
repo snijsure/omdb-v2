@@ -27,6 +27,7 @@ import com.snijsure.omdbsearch.util.InfiniteScrollListener
 import com.snijsure.omdbsearch.util.NetworkUtil
 import com.snijsure.utility.CoroutinesContextProvider
 import dagger.android.AndroidInjection
+import org.jetbrains.annotations.Nullable
 import javax.inject.Inject
 
 /**
@@ -46,6 +47,7 @@ class MovieListActivity : AppCompatActivity() {
     lateinit var adapter: MovieAdapter
     lateinit var searchView: SearchView
 
+    @Nullable
     @BindView(R.id.movie_list_view)
     lateinit var recyclerView: RecyclerView
     @BindView(R.id.no_connection)
@@ -65,6 +67,7 @@ class MovieListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_movie_list)
         ButterKnife.bind(this)
         movieViewModel = ViewModelProviders.of(this, movieModelViewFactory).get(MovieViewModel::class.java)
+        supportActionBar?.title = resources.getString(R.string.movie_search)
         setupRecyclerView()
         setupViewModelObservers()
     }
@@ -81,9 +84,9 @@ class MovieListActivity : AppCompatActivity() {
         val searchMenuItem = menu.findItem(R.id.action_search)
 
         searchView = searchMenuItem.actionView as SearchView
+        searchView.isSubmitButtonEnabled = true
         searchView.imeOptions = EditorInfo.IME_ACTION_DONE
         searchView.queryHint = resources.getString(R.string.search_hint)
-        searchView.setIconifiedByDefault(false)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
                 // Reset page number and do search also clear previous search results
