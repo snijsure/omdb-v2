@@ -14,7 +14,7 @@
 
         <!-- this could be a RecyclerView or NestedScrollView -->
         <FrameLayout
-                android:id="@+id/my_nav_host_fragment"
+                android:id="@+id/main_fragment_holder"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">

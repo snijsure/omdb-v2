@@ -42,6 +42,8 @@ class MovieListActivity : DaggerAppCompatActivity() {
                 }
                 R.id.action_about -> {
                     Timber.d("About")
+                    fragment = AboutAppFragment()
+                    switchFragment(fragment as AboutAppFragment)
                     true
                 }
                 else -> {
@@ -54,7 +56,7 @@ class MovieListActivity : DaggerAppCompatActivity() {
 
     private fun switchFragment(fragment: Fragment) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.my_nav_host_fragment, fragment)
+        fragmentTransaction.replace(R.id.main_fragment_holder, fragment)
         fragmentTransaction.commit()
     }
 

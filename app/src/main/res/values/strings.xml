@@ -11,12 +11,37 @@
     <string name="sharedText">SharedTextElement</string>
     <string name="sharedImageView">SharedImageViewElement</string>
     <string name="loading_text">Fetching data</string>
-    <string name="welcome_text">Click on search icon to search for movies</string>
+    <string name="welcome_text">Click on search icon to initiate search for movies</string>
     <string name="text_favorites">Favorites</string>
     <string name="about_app">About</string>
     <string name="movie_search">Search Movies</string>
     <string name="home">Home</string>
     <string name="text_search">Search</string>
     <string name="text_clear">Clear</string>
+    <string name="headline">About OMDB Search</string>
 
+    <string name="about_text">
+        <![CDATA[
+        <p>This is sample app that I am using to <u>experiment</u> with Android design pattern.
+        I also use this app as an <em>example</em> to demonstrate my understanding of Android things during
+        interview process
+        </p>
+        <p>This app demonstrates following things:</p>
+        <ul>
+        <li>Implementation of Android MVVM design pattern</li>
+        <li>Use of data binding, use of Kotlin coroutines for background jobs</li>
+        <li>Use of DI, and its use in unit tests</li>
+        <li>Various Android UI elements such</li>
+        <li><b>TODO </b>Would like to start using Android Navigation framework to navigate</li>
+        </ul>
+        <p>How to use the app</p>
+        <ul>
+        <li>Click on the search icon on top right to initiate search</li>
+        <li>Click on item in the list to see details about movie, long press on the item to toggle
+        favorite state of an item</li>
+        <li>Click on favorites icon in the bottom sheet to view saved favorites</li>
+        </ul>
+        <p>Feedback please send it to <b>subodh.nijsure@gmail.com</b></p>
+        ]]>
+    </string>
 </resources>
