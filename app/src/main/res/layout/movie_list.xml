@@ -32,7 +32,7 @@
                     android:layout_width="120dp"
                     android:layout_height="120dp"
                     android:scaleType="fitXY"
-                    android:src="@android:drawable/ic_lock_idle_alarm"
+                    android:src="@drawable/ic_outline_movie_24px"
                     tools:src="@tools:sample/avatars"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
