@@ -56,6 +56,7 @@ class MovieViewModel @Inject constructor(
 
     override fun onCleared() {
         super.onCleared()
+        Timber.d("SUBODH viewmodel is cleared")
         try {
             pendingJobs.cancel()
         } catch (e: Exception) {

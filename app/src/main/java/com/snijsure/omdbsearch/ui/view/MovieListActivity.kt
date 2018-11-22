@@ -1,27 +1,61 @@
 package com.snijsure.omdbsearch.ui.view
 
 import android.os.Bundle
+import android.support.design.widget.BottomNavigationView
+import android.support.v4.app.Fragment
 import android.view.MenuItem
+import butterknife.BindView
 import butterknife.ButterKnife
 import com.snijsure.omdbsearch.R
 import dagger.android.AndroidInjection
 import dagger.android.support.DaggerAppCompatActivity
+import timber.log.Timber
+
 
 /**
- * This activity displayes list of movies retrieved using OMDB API
+ * This activity displays list of movies retrieved using OMDB API
  */
 class MovieListActivity : DaggerAppCompatActivity() {
+    @BindView(R.id.bottom_navigation)
+    lateinit var bottomNavigationView: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        var fragment : Fragment?
+
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_list)
         ButterKnife.bind(this)
         supportActionBar?.title = resources.getString(R.string.movie_search)
-        val fragment = MovieListFragment()
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.my_nav_host_fragment, fragment)
-            .commit()
+
+        bottomNavigationView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.action_clear -> {
+                    fragment = MovieListFragment()
+                    switchFragment(fragment as MovieListFragment)
+                    Timber.d("Item clear")
+                    true
+                }
+                R.id.action_favorites -> {
+                    Timber.d("Search")
+                    true
+                }
+                R.id.action_about -> {
+                    Timber.d("About")
+                    true
+                }
+                else -> {
+                    true
+                }
+            }
+        }
+        bottomNavigationView.selectedItemId = R.id.action_clear
+    }
+
+    private fun switchFragment(fragment: Fragment) {
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.my_nav_host_fragment, fragment)
+        fragmentTransaction.commit()
     }
 
     // Reference: https://antonioleiva.com/kotlin-awesome-tricks-for-android/

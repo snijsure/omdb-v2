@@ -30,6 +30,7 @@ import com.snijsure.utility.CoroutinesContextProvider
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
 import org.jetbrains.annotations.Nullable
+import timber.log.Timber
 import javax.inject.Inject
 
 class MovieListFragment : DaggerFragment() {
@@ -175,6 +176,11 @@ class MovieListFragment : DaggerFragment() {
         super.onResume()
         checkConnectivity()
         rootView.requestFocus()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Timber.d("SUBODH frament is destroyed")
     }
 
     private fun checkConnectivity() {
