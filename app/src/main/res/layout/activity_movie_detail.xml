@@ -20,7 +20,7 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:scaleType="fitXY"
-            android:src="@android:drawable/ic_lock_idle_alarm"
+            android:src="@drawable/ic_outline_movie_24px"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             android:layout_alignParentTop="true"

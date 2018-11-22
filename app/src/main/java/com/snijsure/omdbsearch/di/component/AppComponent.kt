@@ -9,10 +9,13 @@ import com.snijsure.utility.di.CoroutinesContextProviderModule
 import dagger.Component
 import dagger.android.AndroidInjectionModule
 import javax.inject.Singleton
+import dagger.android.support.AndroidSupportInjectionModule
 
 @Singleton
 @Component(
-    modules = [AndroidInjectionModule::class, UiModule::class, AppModule::class,
+    modules = [AndroidInjectionModule::class,
+        AndroidSupportInjectionModule::class,
+        UiModule::class, AppModule::class,
         NetworkModule::class, CoroutinesContextProviderModule::class,
         FavoriteDatabaseModule::class]
 )
