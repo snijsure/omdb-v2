@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/primary">
+        <item
+                android:id="@+id/home_activity"
+                android:icon="@drawable/ic_baseline_favorite_border_24px"
+                android:title="@string/text_favorites" />
+    </group>
+</menu>

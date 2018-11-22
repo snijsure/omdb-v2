@@ -15,5 +15,6 @@
     <string name="text_favorites">Favorites</string>
     <string name="about_app">About</string>
     <string name="movie_search">Search Movies</string>
+    <string name="home">Home</string>
 
 </resources>

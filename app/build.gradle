@@ -80,6 +80,7 @@ dependencies {
     kapt 'com.jakewharton:butterknife-compiler:9.0.0-rc1'
     kapt "com.google.dagger:dagger-compiler:${versions.dagger}"
     api "com.google.dagger:dagger-android:${versions.dagger}"
+    api "com.google.dagger:dagger-android-support:${versions.dagger}"
     kapt "com.google.dagger:dagger-android-processor:${versions.dagger}"
     api "com.squareup.retrofit2:converter-moshi:${versions.moshiConverterVersion}"
     api "com.squareup.moshi:moshi-kotlin:${versions.moshiKotlinVersion}"

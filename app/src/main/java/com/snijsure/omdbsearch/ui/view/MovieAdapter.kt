@@ -1,9 +1,9 @@
 package com.snijsure.omdbsearch.ui.view
 
-import android.app.Activity
 import android.app.ActivityOptions
 import android.content.Intent
 import android.databinding.DataBindingUtil
+import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.RecyclerView
 import android.util.Pair
 import android.view.LayoutInflater
@@ -25,7 +25,7 @@ import kotlinx.coroutines.Dispatchers
 import timber.log.Timber
 
 class MovieAdapter(
-    private val activity: Activity,
+    private val activity: FragmentActivity,
     private val viewModel: MovieViewModel,
     private val dataRepo: DataRepository,
     private val contextProvider: CoroutinesContextProvider
