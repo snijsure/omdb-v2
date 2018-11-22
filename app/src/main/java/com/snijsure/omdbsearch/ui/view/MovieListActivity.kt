@@ -11,7 +11,6 @@ import dagger.android.AndroidInjection
 import dagger.android.support.DaggerAppCompatActivity
 import timber.log.Timber
 
-
 /**
  * This activity displays list of movies retrieved using OMDB API
  */
@@ -20,8 +19,7 @@ class MovieListActivity : DaggerAppCompatActivity() {
     lateinit var bottomNavigationView: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        var fragment : Fragment?
-
+        var fragment: Fragment?
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_list)

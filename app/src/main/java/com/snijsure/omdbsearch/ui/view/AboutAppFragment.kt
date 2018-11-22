@@ -2,7 +2,6 @@ package com.snijsure.omdbsearch.ui.view
 
 import android.content.Context
 import android.os.Bundle
-import android.support.constraint.ConstraintLayout
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
