@@ -11,9 +11,4 @@
             android:searchIcon="@drawable/ic_outline_search_24px"
             android:closeIcon="@drawable/ic_outline_search_24px"
             app:showAsAction="always|collapseActionView"/>
-    <item
-            android:id="@+id/action_favorites"
-            android:icon="@drawable/ic_baseline_favorite_border_24px"
-            android:title="@string/text_favorites"
-            app:showAsAction="ifRoom"/>
 </menu>

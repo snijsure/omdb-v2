@@ -5,11 +5,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
-import android.support.v7.widget.AppCompatTextView
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.SearchView
-import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.*
 
 import android.view.LayoutInflater
 import android.view.Menu
@@ -22,6 +18,7 @@ import android.widget.RelativeLayout
 import android.widget.Toast
 import butterknife.BindView
 import butterknife.ButterKnife
+import butterknife.Optional
 import com.snijsure.dbrepository.repo.room.DataRepository
 import com.snijsure.omdbsearch.R
 import com.snijsure.omdbsearch.data.Movie
@@ -43,6 +40,7 @@ class MovieListFragment : DaggerFragment() {
     @BindView(R.id.no_connection)
     lateinit var noConnection: AppCompatTextView
     @BindView(R.id.busy_indicator)
+    @Nullable
     lateinit var busyIndicator: RelativeLayout
     @BindView(R.id.welcome_text)
     lateinit var welcomeText: AppCompatTextView
@@ -91,7 +89,7 @@ class MovieListFragment : DaggerFragment() {
         val searchMenuItem = menu.findItem(R.id.action_search)
 
         searchView = searchMenuItem.actionView as SearchView
-        searchView.isSubmitButtonEnabled = true
+        searchView.isSubmitButtonEnabled = false
         searchView.imeOptions = EditorInfo.IME_ACTION_DONE
         searchView.queryHint = resources.getString(R.string.search_hint)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -115,6 +113,8 @@ class MovieListFragment : DaggerFragment() {
     private fun setupRecyclerView() {
 
         recyclerView.setHasFixedSize(true)
+        (recyclerView.itemAnimator as DefaultItemAnimator).supportsChangeAnimations = false
+
         val decoration = DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL)
         recyclerView.addItemDecoration(decoration)
         val layoutManager = LinearLayoutManager(this.context)
