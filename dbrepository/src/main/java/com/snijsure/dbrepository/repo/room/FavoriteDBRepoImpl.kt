@@ -23,9 +23,11 @@ class FavoriteDBRepoImpl @Inject constructor(
         }
     }
 
-    override suspend fun getFavorites(): LiveData<List<FavoriteEntry>> {
+    override suspend fun getFavorites(): List<FavoriteEntry> {
         return coroutineScope.async {
-            favDao.getFavorites()
+            val size = favDao.getFavorites().size
+            Timber.d("Live Data size is $size")
+                favDao.getFavorites()
         }.await()
     }
 

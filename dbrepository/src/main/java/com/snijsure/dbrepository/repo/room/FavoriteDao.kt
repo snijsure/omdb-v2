@@ -10,7 +10,7 @@ import android.arch.persistence.room.Query
 interface FavoriteDao {
 
     @Query("SELECT * FROM favorites")
-    fun getFavorites(): LiveData<List<FavoriteEntry>>
+    fun getFavorites(): List<FavoriteEntry>
 
     @Query("SELECT COUNT(*) FROM favorites WHERE imdbid = :movieId")
     fun isFavorite(movieId: String): Int
