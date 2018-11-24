@@ -9,7 +9,6 @@ import butterknife.ButterKnife
 import com.snijsure.omdbsearch.R
 import dagger.android.AndroidInjection
 import dagger.android.support.DaggerAppCompatActivity
-import timber.log.Timber
 
 /**
  * This activity displays list of movies retrieved using OMDB API
@@ -31,15 +30,14 @@ class MovieListActivity : DaggerAppCompatActivity() {
                 R.id.action_clear -> {
                     fragment = MovieListFragment()
                     switchFragment(fragment as MovieListFragment)
-                    Timber.d("Item clear")
                     true
                 }
                 R.id.action_favorites -> {
-                    Timber.d("Search")
+                    fragment = FavoritesFragment()
+                    switchFragment(fragment as FavoritesFragment)
                     true
                 }
                 R.id.action_about -> {
-                    Timber.d("About")
                     fragment = AboutAppFragment()
                     switchFragment(fragment as AboutAppFragment)
                     true

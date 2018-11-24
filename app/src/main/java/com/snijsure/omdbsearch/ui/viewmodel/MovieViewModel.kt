@@ -3,6 +3,7 @@ package com.snijsure.omdbsearch.ui.viewmodel
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import com.snijsure.dbrepository.repo.room.DataRepository
+import com.snijsure.dbrepository.repo.room.FavoriteEntry
 import com.snijsure.omdbsearch.data.LoadSourceCallback
 import com.snijsure.omdbsearch.data.Movie
 import com.snijsure.omdbsearch.data.MovieSearchResponse
@@ -12,10 +13,7 @@ import com.snijsure.omdbsearch.util.NetworkUtil
 import com.snijsure.utility.CoroutinesContextProvider
 import com.snijsure.utility.Result
 import com.snijsure.utility.safeApiCall
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
@@ -41,11 +39,15 @@ class MovieViewModel @Inject constructor(
     @Suppress("UNCHECKED_CAST")
     override fun sourceLoaded(result: Any?) {
         isDataLoading.postValue(false)
-        if (result != null && (result as List<Movie>).isNotEmpty()) {
-            pageNumber++
-            movieData.postValue(result as List<Movie>?)
-        } else {
-            dataLoadStatus.postValue(Constants.NO_SEARCH_RESULTS)
+        try {
+            if (result != null && (result as List<Movie>).isNotEmpty()) {
+                pageNumber++
+                movieData.postValue(result as List<Movie>?)
+            } else {
+                dataLoadStatus.postValue(Constants.NO_SEARCH_RESULTS)
+            }
+        } catch (e: Exception) {
+            Timber.e(e)
         }
     }
 
@@ -116,4 +118,35 @@ class MovieViewModel @Inject constructor(
         }.await()
         return count > 0
     }
+
+    fun loadFavorites() {
+        try {
+            coroutineScope.launch {
+                Timber.d("Current thread loadMovieData ${Thread.currentThread().name}")
+                isDataLoading.postValue(true)
+                val fav = runBlocking { dataRepo.getFavorites() }
+                if (fav.isNotEmpty()) {
+                    val favlist = fav.toMovieList()
+                    sourceLoaded(favlist.toList())
+                } else {
+                    loadFailed(Constants.NO_FAVORITES)
+                }
+            }
+        } catch (e: java.lang.Exception) {
+            isDataLoading.postValue(false)
+            loadFailed(Constants.NO_FAVORITES)
+        }
+    }
+}
+
+private fun <E> Collection<E>?.toMovieList(): MutableList<Movie> {
+    val result = mutableListOf<Movie>()
+    this?.let { favList ->
+        for (e in favList) {
+            val entry = e as FavoriteEntry
+            val m = Movie(title = entry.title, imdbId = entry.imdbid, poster = entry.poster ?: "")
+            result.add(m)
+        }
+    }
+    return result
 }

@@ -1,9 +1,6 @@
 package com.snijsure.omdbsearch.di.modules
 
-import com.snijsure.omdbsearch.ui.view.AboutAppFragment
-import com.snijsure.omdbsearch.ui.view.MovieDetailActivity
-import com.snijsure.omdbsearch.ui.view.MovieListActivity
-import com.snijsure.omdbsearch.ui.view.MovieListFragment
+import com.snijsure.omdbsearch.ui.view.*
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -21,4 +18,7 @@ abstract class UiModule {
 
     @ContributesAndroidInjector
     abstract fun contributeAboutAppFragment(): AboutAppFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeFavoritesFragment(): FavoritesFragment
 }

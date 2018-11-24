@@ -44,4 +44,5 @@
         <p>Feedback please send it to <b>subodh.nijsure@gmail.com</b></p>
         ]]>
     </string>
+    <string name="no_favorites">No favorites found in database</string>
 </resources>

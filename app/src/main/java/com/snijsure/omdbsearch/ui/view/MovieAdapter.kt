@@ -28,7 +28,8 @@ class MovieAdapter(
     private val activity: FragmentActivity,
     private val viewModel: MovieViewModel,
     private val dataRepo: DataRepository,
-    private val contextProvider: CoroutinesContextProvider
+    private val contextProvider: CoroutinesContextProvider,
+    private val allowFavStatusUpdate: Boolean
 ) : RecyclerView.Adapter<MovieAdapter.MovieInfoHolder>() {
 
     private val pendingJobs = Job()
@@ -131,7 +132,9 @@ class MovieAdapter(
 
         init {
             binding.movieHolder.setOnClickListener(this)
-            binding.movieHolder.setOnLongClickListener(this)
+            if(allowFavStatusUpdate) {
+                binding.movieHolder.setOnLongClickListener(this)
+            }
         }
     }
 }
