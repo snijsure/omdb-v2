@@ -23,21 +23,23 @@ class MovieListActivity : DaggerAppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_list)
         ButterKnife.bind(this)
-        supportActionBar?.title = resources.getString(R.string.movie_search)
 
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.action_clear -> {
+                    supportActionBar?.title = resources.getString(R.string.movie_search)
                     fragment = MovieListFragment()
                     switchFragment(fragment as MovieListFragment)
                     true
                 }
                 R.id.action_favorites -> {
+                    supportActionBar?.title = resources.getString(R.string.text_favorites)
                     fragment = FavoritesFragment()
                     switchFragment(fragment as FavoritesFragment)
                     true
                 }
                 R.id.action_about -> {
+                    supportActionBar?.title = resources.getString(R.string.about_app)
                     fragment = AboutAppFragment()
                     switchFragment(fragment as AboutAppFragment)
                     true
