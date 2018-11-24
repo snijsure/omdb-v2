@@ -72,7 +72,7 @@ class DatabaseTest {
     fun getAllItems() {
 
         createEntries()
-        val ret = getLiveDataValue(runBlocking { repo.getFavorites() })
+        val ret = runBlocking {  repo.getFavorites() }
 
         assertTrue(4 == ret.size)
         assertTrue(ret[3].imdbid == "id5")
