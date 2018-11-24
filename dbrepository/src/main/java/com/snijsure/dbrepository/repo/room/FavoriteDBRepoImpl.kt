@@ -1,6 +1,5 @@
 package com.snijsure.dbrepository.repo.room
 
-import android.arch.lifecycle.LiveData
 import com.snijsure.utility.CoroutinesContextProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job

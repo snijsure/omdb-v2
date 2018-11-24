@@ -9,7 +9,6 @@ import butterknife.ButterKnife
 import com.snijsure.omdbsearch.R
 import dagger.android.AndroidInjection
 import dagger.android.support.DaggerAppCompatActivity
-import timber.log.Timber
 
 /**
  * This activity displays list of movies retrieved using OMDB API

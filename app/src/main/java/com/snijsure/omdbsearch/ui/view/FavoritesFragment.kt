@@ -92,14 +92,12 @@ class FavoritesFragment : DaggerFragment() {
             if (it != null) {
                 if (it.isEmpty()) {
                     setViewVisibilty(hasItems = false)
-                }
-                else {
+                } else {
                     setViewVisibilty(hasItems = true)
                     adapter.movieList.addAll(it)
                     adapter.notifyDataSetChanged()
                 }
-            }
-            else {
+            } else {
                 setViewVisibilty(hasItems = true)
             }
         })
@@ -121,12 +119,11 @@ class FavoritesFragment : DaggerFragment() {
         })
     }
 
-    private fun setViewVisibilty(hasItems : Boolean) {
-        if(hasItems) {
+    private fun setViewVisibilty(hasItems: Boolean) {
+        if (hasItems) {
             recyclerView.visibility = View.VISIBLE
             noFavorites.visibility = View.GONE
-        }
-        else {
+        } else {
             recyclerView.visibility = View.GONE
             noFavorites.visibility = View.VISIBLE
         }

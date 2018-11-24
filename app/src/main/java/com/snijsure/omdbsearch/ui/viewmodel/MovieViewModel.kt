@@ -46,8 +46,7 @@ class MovieViewModel @Inject constructor(
             } else {
                 dataLoadStatus.postValue(Constants.NO_SEARCH_RESULTS)
             }
-        }
-        catch(e: Exception) {
+        } catch (e: Exception) {
             Timber.e(e)
         }
     }
@@ -133,8 +132,7 @@ class MovieViewModel @Inject constructor(
                     loadFailed(Constants.NO_FAVORITES)
                 }
             }
-        }
-        catch(e : java.lang.Exception) {
+        } catch (e: java.lang.Exception) {
             isDataLoading.postValue(false)
             loadFailed(Constants.NO_FAVORITES)
         }
@@ -144,9 +142,9 @@ class MovieViewModel @Inject constructor(
 private fun <E> Collection<E>?.toMovieList(): MutableList<Movie> {
     val result = mutableListOf<Movie>()
     this?.let { favList ->
-        for(e in favList) {
+        for (e in favList) {
             val entry = e as FavoriteEntry
-            val m = Movie(title = entry.title,imdbId = entry.imdbid,poster = entry.poster ?: "")
+            val m = Movie(title = entry.title, imdbId = entry.imdbid, poster = entry.poster ?: "")
             result.add(m)
         }
     }
