@@ -81,7 +81,7 @@ class FavoritesFragment : DaggerFragment() {
         val decoration = DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL)
         recyclerView.addItemDecoration(decoration)
         val layoutManager = LinearLayoutManager(this.context)
-        adapter = MovieAdapter(this.activity!!, movieViewModel, dataRepo, contextProvider)
+        adapter = MovieAdapter(this.activity!!, movieViewModel, dataRepo, contextProvider,false)
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
         setViewVisibilty(hasItems = false)

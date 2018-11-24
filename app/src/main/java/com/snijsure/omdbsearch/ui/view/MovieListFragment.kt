@@ -123,7 +123,7 @@ class MovieListFragment : DaggerFragment() {
         val decoration = DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL)
         recyclerView.addItemDecoration(decoration)
         val layoutManager = LinearLayoutManager(this.context)
-        adapter = MovieAdapter(this.activity!!, movieViewModel, dataRepo, contextProvider)
+        adapter = MovieAdapter(this.activity!!, movieViewModel, dataRepo, contextProvider,true)
 
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
