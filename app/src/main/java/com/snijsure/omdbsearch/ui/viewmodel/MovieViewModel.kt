@@ -51,6 +51,7 @@ class MovieViewModel @Inject constructor(
         try {
             if (result != null && (result as List<Movie>).isNotEmpty()) {
                 pageNumber++
+                Timber.d("SUBODH movie Data updated!!")
                 movieData.postValue(result as List<Movie>?)
             } else {
                 dataLoadStatus.postValue(Constants.NO_SEARCH_RESULTS)
@@ -75,12 +76,15 @@ class MovieViewModel @Inject constructor(
     }
 
     fun loadMovieData(searchTerm: String) {
+        Timber.d("SUBODH loadMovieData searchTerm $searchTerm current page $pageNumber")
         if (networkUtil.isNetworkConnected()) {
             coroutineScope.launch {
                 Timber.d("Current thread loadMovieData ${Thread.currentThread().name}")
                 isDataLoading.postValue(true)
                 val result = search(searchTerm, pageNumber)
                 if (result is Result.Success) {
+                    Timber.d("SUBODH Load loadMovieData!!")
+
                     totalSearchResults = result.data.totalResults
                     sourceLoaded(result.data.movieSearchResults)
                 } else if (result is Result.Error) {
@@ -134,6 +138,7 @@ class MovieViewModel @Inject constructor(
                 isDataLoading.postValue(true)
                 val fav = runBlocking { dataRepo.getFavorites() }
                 if (fav.isNotEmpty()) {
+                    Timber.d("SUBODH Load Favorites!!")
                     sourceLoaded(fav.toMovieList())
                 } else {
                     loadFailed(Constants.NO_FAVORITES)

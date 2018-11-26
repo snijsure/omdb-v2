@@ -119,9 +119,11 @@ class FavoritesFragment : DaggerFragment() {
                 }
                 else {
                     setViewVisibilty(hasItems = true)
-                    adapter.movieList.clear()
+                    adapter.updateMovieListItems(it.toMovieList())
+                    /* adapter.movieList.clear()
                     adapter.movieList.addAll(it.toMovieList())
                     adapter.notifyDataSetChanged()
+                    */
                 }
             } else {
                 setViewVisibilty(hasItems = false)

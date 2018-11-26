@@ -105,6 +105,7 @@ class MovieListFragment : DaggerFragment() {
                 adapter.movieList.clear()
                 adapter.notifyDataSetChanged()
                 movieViewModel.pageNumber = 1
+                Timber.d("SUBODH page number 1 loadMovieData")
                 movieViewModel.loadMovieData(query)
                 return false
             }
@@ -135,6 +136,7 @@ class MovieListFragment : DaggerFragment() {
                 if (movieViewModel.totalSearchResults > adapter.movieList.size) {
                     val str = searchView.query.toString()
                     if (str.isNotEmpty()) {
+                        Timber.d("SUBODH onLoadMore calling second load??")
                         movieViewModel.loadMovieData(str)
                     }
                 } else {
@@ -154,8 +156,10 @@ class MovieListFragment : DaggerFragment() {
     private fun setupViewModelObservers() {
         movieViewModel.movieData.observe(this, Observer<List<Movie>> {
             if (it != null) {
-                adapter.movieList.addAll(it)
+                adapter.updateMovieListItems(it)
+                /* adapter.movieList.addAll(it)
                 adapter.notifyDataSetChanged()
+                */
             }
         })
 

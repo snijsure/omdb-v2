@@ -15,7 +15,6 @@ import com.snijsure.omdbsearch.R
 import com.snijsure.omdbsearch.data.Movie
 import com.snijsure.omdbsearch.databinding.MovieListBinding
 import com.snijsure.omdbsearch.ui.viewmodel.MovieViewModel
-import com.snijsure.omdbsearch.ui.viewmodel.toMovieList
 import com.snijsure.utility.CoroutinesContextProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -24,6 +23,9 @@ import kotlinx.coroutines.withContext
 import kotlinx.coroutines.Dispatchers
 
 import timber.log.Timber
+import android.support.v7.util.DiffUtil
+import com.snijsure.omdbsearch.util.MovieDiffCallback
+
 
 class MovieAdapter(
     private val activity: FragmentActivity,
@@ -66,6 +68,19 @@ class MovieAdapter(
                 withContext(Dispatchers.Main) {
                     holder.binding.movieFav.visibility = visibility
                 }
+            }
+        }
+    }
+
+    fun updateMovieListItems(favList: List<Movie>) {
+        coroutineScope.launch {
+            Timber.d("SUBODH calculate Diff ${Thread.currentThread().name}")
+            val diffCallback = MovieDiffCallback(movieList, favList)
+            val diffResult = DiffUtil.calculateDiff(diffCallback)
+            withContext(Dispatchers.Main) {
+                Timber.d("SUBODH update UI ${Thread.currentThread().name}")
+                movieList = favList.toMutableList()
+                diffResult.dispatchUpdatesTo(this@MovieAdapter)
             }
         }
     }
