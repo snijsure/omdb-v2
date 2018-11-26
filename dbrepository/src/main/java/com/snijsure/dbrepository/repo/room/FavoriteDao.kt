@@ -1,5 +1,6 @@
 package com.snijsure.dbrepository.repo.room
 
+import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
@@ -19,4 +20,7 @@ interface FavoriteDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun addMovieToFavorites(movie: FavoriteEntry)
+
+    @Query("SELECT * FROM favorites")
+    fun getFavoritesLiveData(): LiveData<List<FavoriteEntry>>
 }

@@ -123,7 +123,7 @@ class MovieListFragment : DaggerFragment() {
         val decoration = DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL)
         recyclerView.addItemDecoration(decoration)
         val layoutManager = LinearLayoutManager(this.context)
-        adapter = MovieAdapter(this.activity!!, movieViewModel, dataRepo, contextProvider,true)
+        adapter = MovieAdapter(this.activity!!, movieViewModel, dataRepo, contextProvider)
 
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
@@ -184,7 +184,6 @@ class MovieListFragment : DaggerFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        Timber.d("SUBODH frament is destroyed")
     }
 
     private fun checkConnectivity() {

@@ -1,5 +1,6 @@
 package com.snijsure.dbrepository.repo.room
 
+import android.arch.lifecycle.LiveData
 import com.snijsure.utility.CoroutinesContextProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -28,6 +29,10 @@ class FavoriteDBRepoImpl @Inject constructor(
             Timber.d("Live Data size is $size")
                 favDao.getFavorites()
         }.await()
+    }
+
+    override fun getFavoritesLiveData(): LiveData<List<FavoriteEntry>> {
+        return favDao.getFavoritesLiveData()
     }
 
     override suspend fun isFavorite(movieId: String): Int {

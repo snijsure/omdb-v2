@@ -15,6 +15,7 @@ import com.snijsure.omdbsearch.R
 import com.snijsure.omdbsearch.data.Movie
 import com.snijsure.omdbsearch.databinding.MovieListBinding
 import com.snijsure.omdbsearch.ui.viewmodel.MovieViewModel
+import com.snijsure.omdbsearch.ui.viewmodel.toMovieList
 import com.snijsure.utility.CoroutinesContextProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -28,9 +29,7 @@ class MovieAdapter(
     private val activity: FragmentActivity,
     private val viewModel: MovieViewModel,
     private val dataRepo: DataRepository,
-    private val contextProvider: CoroutinesContextProvider,
-    private val allowFavStatusUpdate: Boolean
-) : RecyclerView.Adapter<MovieAdapter.MovieInfoHolder>() {
+    private val contextProvider: CoroutinesContextProvider) : RecyclerView.Adapter<MovieAdapter.MovieInfoHolder>() {
 
     private val pendingJobs = Job()
     private val coroutineScope = CoroutineScope(contextProvider.io + pendingJobs)
@@ -132,9 +131,7 @@ class MovieAdapter(
 
         init {
             binding.movieHolder.setOnClickListener(this)
-            if(allowFavStatusUpdate) {
-                binding.movieHolder.setOnLongClickListener(this)
-            }
+            binding.movieHolder.setOnLongClickListener(this)
         }
     }
 }

@@ -1,6 +1,8 @@
 package com.snijsure.omdbsearch.ui.viewmodel
 
+import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModel
 import com.snijsure.dbrepository.repo.room.DataRepository
 import com.snijsure.dbrepository.repo.room.FavoriteEntry
@@ -31,10 +33,17 @@ class MovieViewModel @Inject constructor(
     var totalSearchResults = 0
     private val pendingJobs = Job()
     val movieData: MutableLiveData<List<Movie>> = MutableLiveData()
+    val favoriteMediator: MediatorLiveData<List<FavoriteEntry>> = MediatorLiveData()
+
     val dataLoadStatus = MutableLiveData<String>()
     private val coroutineScope = CoroutineScope(contextProvider.io + pendingJobs)
 
     var pageNumber = 1
+
+    init {
+        favoriteMediator.value = null
+        favoriteMediator.addSource(dataRepo.getFavoritesLiveData()) { favoriteMediator.setValue(it) }
+    }
 
     @Suppress("UNCHECKED_CAST")
     override fun sourceLoaded(result: Any?) {
@@ -58,7 +67,6 @@ class MovieViewModel @Inject constructor(
 
     override fun onCleared() {
         super.onCleared()
-        Timber.d("SUBODH viewmodel is cleared")
         try {
             pendingJobs.cancel()
         } catch (e: Exception) {
@@ -126,8 +134,7 @@ class MovieViewModel @Inject constructor(
                 isDataLoading.postValue(true)
                 val fav = runBlocking { dataRepo.getFavorites() }
                 if (fav.isNotEmpty()) {
-                    val favlist = fav.toMovieList()
-                    sourceLoaded(favlist.toList())
+                    sourceLoaded(fav.toMovieList())
                 } else {
                     loadFailed(Constants.NO_FAVORITES)
                 }
@@ -139,7 +146,7 @@ class MovieViewModel @Inject constructor(
     }
 }
 
-private fun <E> Collection<E>?.toMovieList(): MutableList<Movie> {
+fun <E> Collection<E>?.toMovieList(): MutableList<Movie> {
     val result = mutableListOf<Movie>()
     this?.let { favList ->
         for (e in favList) {

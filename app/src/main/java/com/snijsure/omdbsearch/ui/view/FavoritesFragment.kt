@@ -1,6 +1,7 @@
 package com.snijsure.omdbsearch.ui.view
 
 import android.app.Application
+import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
@@ -15,10 +16,12 @@ import android.widget.Toast
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.snijsure.dbrepository.repo.room.DataRepository
+import com.snijsure.dbrepository.repo.room.FavoriteEntry
 import com.snijsure.omdbsearch.R
 import com.snijsure.omdbsearch.data.Movie
 import com.snijsure.omdbsearch.ui.viewmodel.MovieViewModel
 import com.snijsure.omdbsearch.ui.viewmodel.MovieViewModelFactory
+import com.snijsure.omdbsearch.ui.viewmodel.toMovieList
 import com.snijsure.utility.CoroutinesContextProvider
 import dagger.android.support.AndroidSupportInjection
 import dagger.android.support.DaggerFragment
@@ -81,27 +84,13 @@ class FavoritesFragment : DaggerFragment() {
         val decoration = DividerItemDecoration(this.context, DividerItemDecoration.VERTICAL)
         recyclerView.addItemDecoration(decoration)
         val layoutManager = LinearLayoutManager(this.context)
-        adapter = MovieAdapter(this.activity!!, movieViewModel, dataRepo, contextProvider,false)
+        adapter = MovieAdapter(this.activity!!, movieViewModel, dataRepo, contextProvider)
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = adapter
         setViewVisibilty(hasItems = false)
     }
 
     private fun setupViewModelObservers() {
-        movieViewModel.movieData.observe(this, Observer<List<Movie>> {
-            if (it != null) {
-                if (it.isEmpty()) {
-                    setViewVisibilty(hasItems = false)
-                } else {
-                    setViewVisibilty(hasItems = true)
-                    adapter.movieList.addAll(it)
-                    adapter.notifyDataSetChanged()
-                }
-            } else {
-                setViewVisibilty(hasItems = true)
-            }
-        })
-
         movieViewModel.isDataLoading.observe(this, Observer<Boolean> {
             it?.let { status ->
                 if (status) {
@@ -115,6 +104,27 @@ class FavoritesFragment : DaggerFragment() {
         movieViewModel.dataLoadStatus.observe(this, Observer<String> {
             it?.let { statusMessage ->
                 Toast.makeText(app, statusMessage, Toast.LENGTH_LONG).show()
+            }
+        })
+
+        subscribeUi(movieViewModel.favoriteMediator)
+    }
+
+    private fun subscribeUi(liveData: LiveData<List<FavoriteEntry>>) {
+        // Update the list when the data changes
+        liveData.observe(this, Observer {
+            if (it != null) {
+                if (it.isEmpty()) {
+                    setViewVisibilty(hasItems = false)
+                }
+                else {
+                    setViewVisibilty(hasItems = true)
+                    adapter.movieList.clear()
+                    adapter.movieList.addAll(it.toMovieList())
+                    adapter.notifyDataSetChanged()
+                }
+            } else {
+                setViewVisibilty(hasItems = false)
             }
         })
     }
