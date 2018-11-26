@@ -79,6 +79,17 @@ class DatabaseTest {
         assertTrue(ret[3].poster == "poster5")
     }
 
+    @Test
+    fun getAllLiveDataItems() {
+
+        createEntries()
+        val ret = getLiveDataValue(runBlocking {  repo.getFavoritesLiveData() })
+
+        assertTrue(4 == ret.size)
+        assertTrue(ret[3].imdbid == "id5")
+        assertTrue(ret[3].poster == "poster5")
+    }
+
     private fun createEntries() {
         // Make sure we find items id1 & id2 but don't find id3
         val fav1 = FavoriteEntry(title = "movie1", imdbid = "id1", poster = "poster1")

@@ -130,7 +130,7 @@ class MovieViewModel @Inject constructor(
     fun loadFavorites() {
         try {
             coroutineScope.launch {
-                Timber.d("Current thread loadMovieData ${Thread.currentThread().name}")
+                Timber.d("Current thread loadFavorites ${Thread.currentThread().name}")
                 isDataLoading.postValue(true)
                 val fav = runBlocking { dataRepo.getFavorites() }
                 if (fav.isNotEmpty()) {
