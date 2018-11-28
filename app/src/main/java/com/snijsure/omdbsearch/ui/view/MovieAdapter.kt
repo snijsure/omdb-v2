@@ -25,6 +25,13 @@ import kotlinx.coroutines.Dispatchers
 
 import timber.log.Timber
 
+/***
+ * Note well this Adapter uses activity as construction parameter
+ * as you need to know the activity for makeSceneTransitionAnimation
+ * to work, more than happy to receive feedback on to make that happen
+ * with passing Activity to the Adapter.
+ */
+
 class MovieAdapter(
     private val activity: FragmentActivity,
     private val viewModel: MovieViewModel,
